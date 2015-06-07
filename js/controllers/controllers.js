@@ -8,8 +8,7 @@ angular.module('starter.controllers', [])
                             console.log("Base de datos creada");
                         });
                 db.transaction(function (tx) {
-                    tx.executeSql("CREATE TABLE IF NOT EXISTS User(ID INTEGER PRIMARY KEY ASC, usuario TEXT, added_on TEXT)",
-                            [], onSuccess, onError);
+                   
                     tx.executeSql("DELETE FROM User", [], function (tx, rs) {
                         console.log("Datos borrados");
                         $state.go("login");
