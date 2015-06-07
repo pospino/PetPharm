@@ -229,15 +229,19 @@ angular.module('starter.controllers', [])
                         console.log("Base de datos creada");
                         db.transaction(function (tx) {
                             tx.executeSql("DROP TABLE IF EXISTS User",
-                                    [], onSuccess, onError);
-                            tx.executeSql("CREATE TABLE IF NOT EXISTS User(ID INTEGER PRIMARY KEY ASC, usuario TEXT, id_usuario number, added_on TEXT)",
-                                    [], onSuccess, onError);
+                                    [], function(transaction, resulset){
+                                            tx.executeSql("CREATE TABLE IF NOT EXISTS User(ID INTEGER PRIMARY KEY ASC, usuario TEXT, id_usuario number, added_on TEXT)",
+                                    [], function(transaction, resulset){
                             tx.executeSql("SELECT * FROM User", [], function (tx, rs) {
                                 if (rs.rows.length) {
                                     $state.go("app.gps");
                                 } else {
 
-                                }
+                                }                
+                                    }, onError);
+                                    }, onError);
+                            
+                            
                             }, onError);
                         });
                     });
