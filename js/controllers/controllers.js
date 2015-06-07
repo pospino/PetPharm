@@ -8,7 +8,7 @@ angular.module('starter.controllers', [])
                             console.log("Base de datos creada");
                         });
                 db.transaction(function (tx) {
-                   
+
                     tx.executeSql("DELETE FROM User", [], function (tx, rs) {
                         console.log("Datos borrados");
                         $state.go("login");
@@ -29,21 +29,21 @@ angular.module('starter.controllers', [])
         .controller('MascotasCtrl', function ($scope, $http, config, $ionicLoading) {
 
             $scope.lista = [];
-            LeerDatos(function(){
+            LeerDatos(function () {
                 console.log("Leer datos normal");
             });
-            $scope.Actualizar = function(){
+            $scope.Actualizar = function () {
                 $scope.lista = [];
                 console.log("leyendo");
-                LeerDatos(function(){
+                LeerDatos(function () {
                     console.log("Datos Actualizados");
                 });
             };
-            $scope.Actualizar_Pull = function(){
+            $scope.Actualizar_Pull = function () {
                 $scope.lista = [];
                 console.log("Pull");
-                LeerDatos(function(){
-                     $scope.$broadcast('scroll.refreshComplete');
+                LeerDatos(function () {
+                    $scope.$broadcast('scroll.refreshComplete');
                 });
             };
             function LeerDatos(callback) {
@@ -114,8 +114,8 @@ angular.module('starter.controllers', [])
             ];
         })
 
-        .controller('SingleVeterinarioCtrl', function ($scope, $stateParams, $http,$ionicLoading,config) {
-             $ionicLoading.show({
+        .controller('SingleVeterinarioCtrl', function ($scope, $stateParams, $http, $ionicLoading, config) {
+            $ionicLoading.show({
                 content: 'Loading',
                 animation: 'fade-in',
                 showBackdrop: true,
@@ -150,16 +150,16 @@ angular.module('starter.controllers', [])
                     }
                 };
                 $http.get(config.apiurl + 'vet/' + $stateParams.mascotaId + '/0')
-                    .success(function (data) {
-                        $scope.vet = data[0];
-                        $ionicLoading.hide();
-                    });
+                        .success(function (data) {
+                            $scope.vet = data[0];
+                            $ionicLoading.hide();
+                        });
             });
             $scope.mascotaId = $stateParams.mascotaId;
             $scope.veterinarioId = $stateParams.veterinarioId;
-           
-            
-            
+
+
+
         })
 
         .controller('PerfilCtrl', function ($scope, $stateParams) {
@@ -227,20 +227,21 @@ angular.module('starter.controllers', [])
             var db = openDatabase("PPdb", "", "Base de datos PetPharm", dbSize,
                     function () {
                         console.log("Base de datos creada");
-                    });
-            db.transaction(function (tx) {
-                tx.executeSql("DROP TABLE IF EXISTS User",
-                        [], onSuccess, onError);
-                tx.executeSql("CREATE TABLE IF NOT EXISTS User(ID INTEGER PRIMARY KEY ASC, usuario TEXT, id_usuario number, added_on TEXT)",
-                        [], onSuccess, onError);
-                tx.executeSql("SELECT * FROM User", [], function (tx, rs) {
-                    if (rs.rows.length) {
-                        $state.go("app.gps");
-                    } else {
+                        db.transaction(function (tx) {
+                            tx.executeSql("DROP TABLE IF EXISTS User",
+                                    [], onSuccess, onError);
+                            tx.executeSql("CREATE TABLE IF NOT EXISTS User(ID INTEGER PRIMARY KEY ASC, usuario TEXT, id_usuario number, added_on TEXT)",
+                                    [], onSuccess, onError);
+                            tx.executeSql("SELECT * FROM User", [], function (tx, rs) {
+                                if (rs.rows.length) {
+                                    $state.go("app.gps");
+                                } else {
 
-                    }
-                }, onError);
-            });
+                                }
+                            }, onError);
+                        });
+                    });
+
 
             function onSuccess(transaction, resultSet) {
                 console.log('Query completed: ' + JSON.stringify(resultSet));
