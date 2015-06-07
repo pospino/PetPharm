@@ -1,0 +1,19 @@
+<ion-view hide-back-button="true" view-title="{{nombre}}">
+
+    <div class="tabs tabs-assertive tabs-icon-top">
+        <a class="tab-item tabs-positive" href="#/app/mascota/{{mascotaId}}">
+            <i class="icon ion-ios-paw-outline"></i>
+            Datos
+        </a>
+        <a class="tab-item" href="#/app/mascotahc/{{mascotaId}}">
+            <i class="icon ion-ios-list"></i>H.C.
+        </a>
+        <a class="tab-item" href="#/app/veterinario/{{mascota.veterinario_id}}/{{mascotaId}}">
+            <i class="icon ion-ios-medkit-outline"></i>Veterinarios
+        </a>
+    </div>
+    <ion-content>
+        datp
+        <ion-nav-view name="contenido"></ion-nav-view>
+    </ion-content>
+</ion-view>

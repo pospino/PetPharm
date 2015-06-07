@@ -1,0 +1,20 @@
+<ion-view hide-back-button="true" view-title="Veterinarios">
+  <div class="tabs  tabs-assertive tabs-icon-top">
+    <a class="tab-item tabs-positive" href="#/app/mascota/{{id}}">
+      <i class="icon ion-ios-paw-outline"></i>
+      Datos
+    </a>
+    <a class="tab-item" href="#/app/mascotahc/{{id}}">
+      <i class="icon ion-ios-list-outline"></i>H.C.
+    </a>
+    <a class="tab-item" href="#/app/veterinarios/{{id}}"><i class="icon ion-ios-medkit"></i>Veterinarios</a>
+  </div>
+  <ion-content>
+
+    <ion-list>
+      <ion-item ng-repeat="vet in lista" href="#/app/veterinario/{{vet.id}}">
+        {{vet.nombre}}
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>

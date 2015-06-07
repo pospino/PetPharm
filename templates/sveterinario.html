@@ -1,0 +1,66 @@
+﻿<ion-view hide-back-button="true" view-title="Veterinario">
+    <div class="tabs tabs-assertive tabs-icon-top">
+        <a class="tab-item tabs-positive" href="#/app/mascota/{{mascotaId}}">
+            <i class="icon ion-ios-paw-outline"></i>
+            Datos
+        </a>
+        <a class="tab-item" href="#/app/mascotahc/{{mascotaId}}">
+            <i class="icon ion-ios-list-outline"></i>H.C.
+        </a>
+        <a class="tab-item" href="#/app/veterinario/{{veterinarioId}}/{{mascotaId}}">
+            <i class="icon ion-ios-medkit"></i>Veterinarios</a>
+    </div>
+    <ion-content>
+        <div class="list card">
+            <div class="item item-avatar">
+                <img src="img/petpharm.png">
+                <h2>{{vet.nombre + " " + vet.apellido}}</h2>
+                <p>{{vet.ocupacion}}</p>
+                <p>{{vet.cliente}}</p>
+            </div>
+            <div class="item item-body">
+                <p style="text-align:justify">
+                    {{detalle}}
+                </p>
+
+
+
+                <p style="font-size:x-small; text-align:justify;">
+                    Estos datos se encuentran en PetPharmApp para <b>{{vet.nombre}}</b>.
+                    Si hay alguna inconsistencia acercate a un punto PetPharm para actualizar los datos.
+                </p>
+
+                <div class="list padding">
+                    <a href="tel:{{vet.celular}}" class="item item-icon-left">
+                        <i class="icon ion-ios-telephone"></i>
+                        {{vet.celular}}
+                    </a>
+                    <a href="tel:{{vet.fijo}}" class="item item-icon-left">
+                        <i class="icon ion-ios-telephone"></i>
+                        {{vet.fijo}}
+                    </a>
+                    <a href="mailto:{{vet.mail}}" class="item item-icon-left">
+                        <i class="icon ion-email"></i>
+                        {{vet.mail}}
+                    </a>
+                    <div class="item item-icon-left ">
+                        <i class="icon ion-home"></i>
+                        <p>{{vet.direccion}}</p>
+                        <br />
+                        {{vet.pais}}
+                        <br />
+                        {{vet.departamento}}
+                        <br />
+                        {{vet.ciudad}}
+                        <div class="padding map-veterinario">
+                            <leaflet defaults="map.defaults" center="map.center" markers="map.markers" ng-if="map"></leaflet>
+                        </div>
+                    </div>
+
+
+
+                </div>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>
