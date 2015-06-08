@@ -65,6 +65,7 @@ angular.module('starter.controllers', [])
                     tx.executeSql("SELECT * FROM User", [], function (tx, rs) {
                         if (rs.rows.length) {
                             url = config.apiurl + 'mismascotas/' + rs.rows[0]["id_usuario"] + '/' + 0;
+                            console.log(url);
                             $http.get(url)
                                     .success(function (data) {
                                         $scope.lista = data;
