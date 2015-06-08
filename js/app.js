@@ -25,12 +25,12 @@ angular.module('starter', ['ionic', 'leaflet-directive', 'starter.controllers', 
                 console.log('Query failed: ' + error.message);
             }
             var dbSize = 1 * 1024 * 1024; // 5MB
-            var db = openDatabase("PPdb", "", "Base de datos PetPharm", dbSize,
+            var db = openDatabase("PP", "", "Base de datos PetPharm", dbSize,
                     function () {
                         console.log("Base de datos creada");
                     });
             db.transaction(function (tx) {
-                tx.executeSql("CREATE TABLE IF NOT EXISTS User(ID INTEGER PRIMARY KEY ASC, usuario TEXT, added_on TEXT)",
+                tx.executeSql("CREATE TABLE IF NOT EXISTS User(ID INTEGER PRIMARY KEY ASC, usuario TEXT, id_usuario number,added_on TEXT)",
                         [], onSuccess, onError);
                 tx.executeSql("SELECT * FROM User", [], function (tx, rs) {
 

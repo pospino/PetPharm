@@ -15,7 +15,7 @@ angular.module('starter').factory('dbService', [function () {
             },
             openDatabase: function () {
                 var dbSize = 1 * 1024 * 1024;
-                database.db = openDatabase("PPdb", "", "Base de datos PetPharm", dbSize,
+                database.db = openDatabase("PP", "", "Base de datos PetPharm", dbSize,
                         function () {
                             console.log("Base de datos creada");
                         });
@@ -25,7 +25,7 @@ angular.module('starter').factory('dbService', [function () {
                     case "user":
                     default:
                         database.db.transaction(function (tx) {
-                            tx.executeSql("CREATE TABLE IF NOT EXISTS User(ID INTEGER PRIMARY KEY ASC, usuario TEXT, added_on TEXT)",
+                            tx.executeSql("CREATE TABLE IF NOT EXISTS User(ID INTEGER PRIMARY KEY ASC, usuario TEXT,id_usuario number, added_on TEXT)",
                                     [], database.onSuccess, database.onError);
                         });
                         break;
