@@ -133,10 +133,21 @@ angular.module('starter.controllers', [])
 
         })
 
-        .controller('PerfilCtrl', function ($scope, $stateParams) {
-            $scope.nombre = "Pedro";
-            $scope.apellido = "Ospino";
-            $scope.edad = "31";
+        .controller('PerfilCtrl', function ($scope, $http, $localStorage, $ionicLoading,config) {
+            $ionicLoading.show({
+                content: 'Loading',
+                animation: 'fade-in',
+                showBackdrop: true,
+                maxWidth: 200,
+                showDelay: 0
+            });
+            var url = config.apiurl + 'my/' + $localStorage.id_usuario + '/0';
+            console.log(url);
+            $http.get(url)
+                    .success(function (data) {
+                        $scope.my = data;
+                        $ionicLoading.hide();
+                    });
         })
 
         .controller('PuntosCtrl', function ($scope, $stateParams) {
