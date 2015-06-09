@@ -3,9 +3,9 @@
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
-angular.module('starter', ['ionic', 'leaflet-directive', 'starter.controllers', 'ngCordova', 'igTruncate', 'ngStorage', 'ngCookies'])
+angular.module('starter', ['ionic', 'leaflet-directive', 'starter.controllers', 'ngCordova', 'igTruncate', 'ngStorage'])
 
-        .run(function ($ionicPlatform, $localStorage, $state) {
+        .run(function ($ionicPlatform, $localStorage, $state,$location) {
             $ionicPlatform.ready(function () {
                 // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
                 // for form inputs)
@@ -17,32 +17,17 @@ angular.module('starter', ['ionic', 'leaflet-directive', 'starter.controllers', 
                     StatusBar.styleDefault();
                 }
             });
-            function onSuccess(transaction, resultSet) {
-                console.log('Query completed: ' + JSON.stringify(resultSet));
+            
+           
+            if ($localStorage.username) {
+                console.log("Se encontraron datos, redireccionando a gps");
+                 $location.url('/app/gps');
+            } else {
+                console.log("No se encontraron datos, redireccionando a login");
+                 $location.url('/login');
             }
 
-            function onError(transaction, error) {
-                console.log('Query failed: ' + error.message);
-            }
-            var dbSize = 1 * 1024 * 1024; // 5MB
-            var db = openDatabase("PP", "", "Base de datos PetPharm", dbSize,
-                    function () {
-                        console.log("Base de datos creada");
-                    });
-            db.transaction(function (tx) {
-                tx.executeSql("CREATE TABLE IF NOT EXISTS User(ID INTEGER PRIMARY KEY ASC, usuario TEXT, id_usuario number,added_on TEXT)",
-                        [], onSuccess, onError);
-                tx.executeSql("SELECT * FROM User", [], function (tx, rs) {
 
-                    if (rs.rows.length > 0) {
-                        console.log("Se encontraron datos, redireccionando a gps");
-                        $state.go("app.gps");
-                    } else {
-                        console.log("No se encontraron datos, redireccionando a login");
-                        $state.go("login");
-                    }
-                }, onError);
-            });
         })
 
         .config(function ($stateProvider, $urlRouterProvider) {

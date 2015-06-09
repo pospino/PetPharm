@@ -2,49 +2,30 @@ angular.module('starter.controllers', [])
         .controller('AppCtrl', function ($scope, $state, $localStorage) {
 
             $scope.logOut = function () {
-                var dbSize = 1 * 1024 * 1024; // 5MB
-                var db = openDatabase("PP", "", "Base de datos PetPharm", dbSize,
-                        function () {
-                            console.log("Base de datos creada");
-                        });
-                db.transaction(function (tx) {
-                    tx.executeSql("CREATE TABLE IF NOT EXISTS User(ID INTEGER PRIMARY KEY ASC, usuario TEXT, id_usuario number, added_on TEXT)",
-                            [], onSuccess, onError);
-                    tx.executeSql("DELETE FROM User", [], function (tx, rs) {
-                        console.log("Datos borrados");
-                        $state.go("login");
-                    }, onError);
-                });
-
-                function onSuccess(transaction, resultSet) {
-                    console.log('Query completed: ' + JSON.stringify(resultSet));
-                }
-
-                function onError(transaction, error) {
-                    console.log('Query failed: ' + error.message);
-                }
+                $localStorage.$reset();
+                $state.go("login");
 
             };
         })
 
-        .controller('MascotasCtrl', function ($scope, $http, config, $ionicLoading) {
+        .controller('MascotasCtrl', function ($scope, $http, config, $localStorage, $ionicLoading) {
 
             $scope.lista = [];
-            LeerDatos(function(){
+            LeerDatos(function () {
                 console.log("Leer datos normal");
             });
-            $scope.Actualizar = function(){
+            $scope.Actualizar = function () {
                 $scope.lista = [];
                 console.log("leyendo");
-                LeerDatos(function(){
+                LeerDatos(function () {
                     console.log("Datos Actualizados");
                 });
             };
-            $scope.Actualizar_Pull = function(){
+            $scope.Actualizar_Pull = function () {
                 $scope.lista = [];
                 console.log("Pull");
-                LeerDatos(function(){
-                     $scope.$broadcast('scroll.refreshComplete');
+                LeerDatos(function () {
+                    $scope.$broadcast('scroll.refreshComplete');
                 });
             };
             function LeerDatos(callback) {
@@ -56,29 +37,17 @@ angular.module('starter.controllers', [])
                     showDelay: 0
                 });
                 console.log("entro");
-                var dbSize = 1 * 1024 * 1024;
-                var db = openDatabase("PP", "", "Base de datos PetPharm", dbSize,
-                        function () {
-                            console.log("Base de datos creada");
-                        });
-                db.transaction(function (tx) {
-                    tx.executeSql("SELECT * FROM User", [], function (tx, rs) {
-                        if (rs.rows.length) {
-                            url = config.apiurl + 'mismascotas/' + rs.rows[0]["id_usuario"] + '/' + 0;
-                            console.log(url);
-                            $http.get(url)
-                                    .success(function (data) {
-                                        $scope.lista = data;
-                                        $ionicLoading.hide();
-                                        callback();
-                                    });
-                        } else {
 
-                        }
-                    }, function (tx, error) {
-                        console.log("Error: " + error);
-                    });
-                });
+                url = config.apiurl + 'mismascotas/' + $localStorage.id_usuario + '/' + 0;
+                console.log(url);
+                $http.get(url)
+                        .success(function (data) {
+                            $scope.lista = data;
+                            $ionicLoading.hide();
+                            callback();
+                        });
+
+
             }
 
 
@@ -116,8 +85,8 @@ angular.module('starter.controllers', [])
             ];
         })
 
-        .controller('SingleVeterinarioCtrl', function ($scope, $stateParams, $http,$ionicLoading,config) {
-             $ionicLoading.show({
+        .controller('SingleVeterinarioCtrl', function ($scope, $stateParams, $http, $ionicLoading, config) {
+            $ionicLoading.show({
                 content: 'Loading',
                 animation: 'fade-in',
                 showBackdrop: true,
@@ -152,16 +121,16 @@ angular.module('starter.controllers', [])
                     }
                 };
                 $http.get(config.apiurl + 'vet/' + $stateParams.mascotaId + '/0')
-                    .success(function (data) {
-                        $scope.vet = data[0];
-                        $ionicLoading.hide();
-                    });
+                        .success(function (data) {
+                            $scope.vet = data[0];
+                            $ionicLoading.hide();
+                        });
             });
             $scope.mascotaId = $stateParams.mascotaId;
             $scope.veterinarioId = $stateParams.veterinarioId;
-           
-            
-            
+
+
+
         })
 
         .controller('PerfilCtrl', function ($scope, $stateParams) {
@@ -225,46 +194,17 @@ angular.module('starter.controllers', [])
 
         .controller('LoginCtrl', function ($scope, $state, $localStorage, $stateParams, AuthService,
                 $cordovaPush, $cordovaToast, $ionicLoading) {
-            var dbSize = 1 * 1024 * 1024;
-            var db = openDatabase("PP", "", "Base de datos PetPharm", dbSize,
-                    function () {
-                        console.log("Base de datos creada");
-                    });
-            db.transaction(function (tx) {
-                tx.executeSql("DROP TABLE IF EXISTS User",
-                        [], onSuccess, onError);
-                tx.executeSql("CREATE TABLE IF NOT EXISTS User(ID INTEGER PRIMARY KEY ASC, usuario TEXT, id_usuario number, added_on TEXT)",
-                        [], onSuccess, onError);
-                tx.executeSql("SELECT * FROM User", [], function (tx, rs) {
-                    if (rs.rows.length) {
-                        $state.go("app.gps");
-                    } else {
-
-                    }
-                }, onError);
-            });
-
-            function onSuccess(transaction, resultSet) {
-                console.log('Query completed: ' + JSON.stringify(resultSet));
+            console.log("LLego al login");
+            if ($localStorage.username) {
+                $state.go("app.gps");
             }
-
-            function onError(transaction, error) {
-                console.log('Query failed: ' + error.message);
-            }
-
-
             $localStorage.$reset();
 
             $scope.loginData = {};
             var userdata = $scope.loginData;
 
-            if ($stateParams.logout) {
-                console.log("debe reiniciar");
 
-            }
-            if ($localStorage.username) {
-                $state.go("app.gps");
-            }
+
             if (userdata.password === "") {
                 $scope.ShowError = false;
             }
@@ -277,9 +217,11 @@ angular.module('starter.controllers', [])
                     showDelay: 0
                 });
                 var userdata = $scope.loginData;
-                AuthService.Login(userdata.username, userdata.password, db, function (response) {
+                AuthService.Login(userdata.username, userdata.password, function (response) {
                     $scope.loginData.password = "";
                     if (response.result) {
+                        $localStorage.username = response.username;
+                        $localStorage.id_usuario = response.id_usuario;
                         $ionicLoading.hide();
                         $state.go("app.gps");
                     } else {

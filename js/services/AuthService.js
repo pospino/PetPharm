@@ -1,7 +1,7 @@
 angular.module('starter')
-        .factory('AuthService', ['$http', 'config', '$state', function ($http, config, $state) {
+        .factory('AuthService', ['$http', 'config', '$state', function ($http, config, $state, $localStorage) {
                 var Auth = {};
-                Auth.Login = function (username, password, db, callback) {
+                Auth.Login = function (username, password, callback) {
                     console.log("LLamando api");
                     url = config.apiurl + 'login/' + username + '/' + password;
                     console.log(url);
@@ -11,23 +11,16 @@ angular.module('starter')
                                     if (!data.success) {
 
                                         if (!data.error) {
-                                            db.transaction(function (tx) {
-                                                tx.executeSql("INSERT INTO User(usuario, added_on, id_usuario) VALUES (?,?,?)", [username, new Date().toUTCString(), data[0]["id"]],
-                                                        function (transaction, resultSet) {
-                                                            console.log(resultSet);
-                                                        }, function (tran, error) {
-                                                    console.log(error);
-                                                });
-                                            });
-                                            callback({result:true});
+                                            
+                                            callback({result: true, username: username, id_usuario: data[0]["id"]});
                                         } else {
-                                            callback({result:false,data:"Ocurrio un error: "+data.error.status});
+                                            callback({result: false, data: "Ocurrio un error: " + data.error.status});
                                         }
-                                    }else{
-                                        callback({result:false, data:data.success.status});
+                                    } else {
+                                        callback({result: false, data: data.success.status});
                                     }
-                                }else{
-                                    callback({result:false, data:"Usuario y/o contraseña invalidos."});
+                                } else {
+                                    callback({result: false, data: "Usuario y/o contraseña invalidos."});
                                 }
                             })
                             .error(function (data, status, headers, config) {
