@@ -145,7 +145,7 @@ angular.module('starter.controllers', [])
             console.log(url);
             $http.get(url)
                     .success(function (data) {
-                        $scope.my = data;
+                        $scope.my = data[0];
                         $ionicLoading.hide();
                     });
         })

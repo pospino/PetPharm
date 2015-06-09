@@ -102,7 +102,7 @@ angular.module('starter', ['ionic', 'leaflet-directive', 'starter.controllers', 
                         }
                     })
                     .state('app.miperfil', {
-                        url: "/perfil/:usuarioId",
+                        url: "/perfil",
                         views: {
                             'menuContent': {
                                 templateUrl: "templates/sperfil.html",
