@@ -134,6 +134,7 @@ angular.module('starter.controllers', [])
         })
 
         .controller('PerfilCtrl', function ($scope, $http, $localStorage, $ionicLoading, config) {
+            $scope.perfil = {};
             $ionicLoading.show({
                 content: 'Loading',
                 animation: 'fade-in',
@@ -145,7 +146,7 @@ angular.module('starter.controllers', [])
             console.log(url);
             $http.get(url)
                     .success(function (data) {
-                        $scope.my = data[0];
+                        $scope.perfil = data[0];
                         $ionicLoading.hide();
                     });
         })
