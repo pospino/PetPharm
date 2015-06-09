@@ -133,7 +133,7 @@ angular.module('starter.controllers', [])
 
         })
 
-        .controller('PerfilCtrl', function ($scope, $http, $localStorage, $ionicLoading,config) {
+        .controller('PerfilCtrl', function ($scope, $http, $localStorage, $ionicLoading, config) {
             $ionicLoading.show({
                 content: 'Loading',
                 animation: 'fade-in',
@@ -150,22 +150,22 @@ angular.module('starter.controllers', [])
                     });
         })
 
-        .controller('PuntosCtrl', function ($scope, $stateParams) {
-            $scope.lista = [
-                {nombre: 'Veterinario 1', clinica: 'Clinica 1', id: 1},
-                {nombre: 'Veterinario 2', clinica: 'Clinica 2', id: 2},
-                {nombre: 'Veterinario 3', clinica: 'Clinica 1', id: 3},
-                {nombre: 'Veterinario 4', clinica: 'Clinica 3', id: 4},
-                {nombre: 'Veterinario 5', clinica: 'Clinica 4', id: 5},
-                {nombre: 'Veterinario 6', clinica: 'Clinica 2', id: 6}
-            ];
-        })
 
-        .controller('PuntosCtrl', function ($scope, $stateParams, $cordovaGeolocation, LocationsService) {
+
+        .controller('PuntosCtrl', function ($scope, $cordovaGeolocation, $ionicLoading, LocationsService) {
+
+            $scope.lista = [];
             $scope.$on("$stateChangeSuccess", function () {
+
                 $scope.puntos = LocationsService.savedLocations;
                 $scope.locate = function () {
-
+                    $ionicLoading.show({
+                        content: 'Loading',
+                        animation: 'fade-in',
+                        showBackdrop: true,
+                        maxWidth: 200,
+                        showDelay: 0
+                    });
                     $cordovaGeolocation
                             .getCurrentPosition()
                             .then(function (position) {
@@ -180,6 +180,7 @@ angular.module('starter.controllers', [])
                                     focus: true,
                                     draggable: false
                                 };
+                                $ionicLoading.hide();
 
                             }, function (err) {
                                 // error
@@ -201,6 +202,14 @@ angular.module('starter.controllers', [])
                     markers: $scope.puntos,
                 };
             });
+            $scope.lista = [
+                {nombre: 'Veterinario 1', clinica: 'Clinica 1', id: 1},
+                {nombre: 'Veterinario 2', clinica: 'Clinica 2', id: 2},
+                {nombre: 'Veterinario 3', clinica: 'Clinica 1', id: 3},
+                {nombre: 'Veterinario 4', clinica: 'Clinica 3', id: 4},
+                {nombre: 'Veterinario 5', clinica: 'Clinica 4', id: 5},
+                {nombre: 'Veterinario 6', clinica: 'Clinica 2', id: 6}
+            ];
         })
 
         .controller('LoginCtrl', function ($scope, $state, $localStorage, $stateParams, AuthService,
