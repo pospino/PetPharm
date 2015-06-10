@@ -8,36 +8,32 @@
         <a class="tab-item" href="#/app/mascotahc/{{mascotaId}}">
             <i class="icon ion-ios-list"></i>H.C.
         </a>
-        <a class="tab-item" href="#/app/veterinario/{{mascota.veterinario_id}}/{{mascotaId}}">
+        <a class="tab-item" href="#/app/veterinario/{{mascotaId}}/{{mascotaId}}">
             <i class="icon ion-ios-medkit-outline"></i>Veterinarios
         </a>
     </div>
     <ion-content class="has-tabs">
         <div class="list">
-
-            <a class="item item-icon-left" href="#">
-                <i class="icon ion-email"></i>
-                Check mail
-            </a>
-
-            <a class="item item-icon-left item-icon-right" href="#">
-                <i class="icon ion-chatbubble-working"></i>
-                Call Ma
-                <i class="icon ion-ios-telephone-outline"></i>
-            </a>
-
-            <a class="item item-icon-left" href="#">
-                <i class="icon ion-mic-a"></i>
-                Record album
+            <div class="item item-divider">
+                Ananexicos
+            </div>
+            <a  ng-repeat="dato in datos" ng-if="dato.Tipo == 'a'" class="item item-icon-left" ng-click="open('{{dato.detalle}}','{{dato.fecha}}')">
+                <i class="icon ion-medkit"></i>
+                {{dato.detalle}}
                 <span class="item-note">
-                    Grammy
+                    {{dato.fecha}}
                 </span>
             </a>
-
-            <a class="item item-icon-left" href="#">
-                <i class="icon ion-person-stalker"></i>
-                Friends
-                <span class="badge badge-assertive">0</span>
+            <div class="item item-divider">
+                Diagnosticos
+            </div>
+            <a  ng-repeat="dato in datos" ng-if="dato.Tipo == 'd'" class="item item-icon-left" 
+                ng-click="open('{{dato.detalle}}','{{dato.fecha}}')">
+                <i class="icon ion-thermometer"></i>
+                {{dato.detalle}}
+                <span class="item-note">
+                    {{dato.fecha}}
+                </span>
             </a>
 
         </div>

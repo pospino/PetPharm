@@ -53,7 +53,7 @@ angular.module('starter.controllers', [])
 
         })
 
-        .controller('SingleMascotaCtrl', function ($scope, $stateParams, config, $http, $ionicLoading) {
+        .controller('SingleMascotaCtrl', function ($scope, $stateParams, config, $http, $ionicLoading, $localStorage) {
             $ionicLoading.show({
                 content: 'Loading',
                 animation: 'fade-in',
@@ -61,17 +61,43 @@ angular.module('starter.controllers', [])
                 maxWidth: 200,
                 showDelay: 0
             });
-            $http.get(config.apiurl + 'pet/' + $stateParams.mascotaId + '/1')
+            url = config.apiurl + 'pet/' + $stateParams.mascotaId + '/' + $localStorage.id_usuario;
+            console.log(url);
+            $http.get(url)
                     .success(function (data) {
                         $scope.mascota = data[0];
                         $ionicLoading.hide();
                     });
         })
 
-        .controller('MascotahcCtrl', function ($scope, $stateParams) {
+        .controller('MascotahcCtrl', function ($scope, $stateParams, $ionicLoading, $http, config, $ionicModal) {
             $scope.mascotaId = $stateParams.mascotaId;
-            $scope.nombre = "Luka";
-            $scope.id = 1;
+            $ionicModal.fromTemplateUrl('templates/modal.html', {
+                scope: $scope,
+                animation: 'slide-in-up'
+            }).then(function (modal) {
+                $scope.modal = modal;
+            });
+            $scope.open = function (detalle, fecha) {
+                $scope.titulo = fecha;
+                $scope.detalle = detalle;
+                $scope.modal.show();
+            };
+            $ionicLoading.show({
+                content: 'Loading',
+                animation: 'fade-in',
+                showBackdrop: true,
+                maxWidth: 200,
+                showDelay: 0
+            });
+            url = config.apiurl + 'hc/' + $stateParams.mascotaId + '/0';
+            console.log(url);
+            $http.get(url)
+                    .success(function (data) {
+                        $scope.datos = data;
+                        $ionicLoading.hide();
+                    });
+
         })
 
         .controller('VeterinariosCtrl', function ($scope, $stateParams) {
@@ -86,6 +112,8 @@ angular.module('starter.controllers', [])
         })
 
         .controller('SingleVeterinarioCtrl', function ($scope, $stateParams, $http, $ionicLoading, config) {
+            $scope.mascotaId = $stateParams.mascotaId;
+            $scope.veterinarioId = $stateParams.veterinarioId;
             $ionicLoading.show({
                 content: 'Loading',
                 animation: 'fade-in',
@@ -126,8 +154,6 @@ angular.module('starter.controllers', [])
                             $ionicLoading.hide();
                         });
             });
-            $scope.mascotaId = $stateParams.mascotaId;
-            $scope.veterinarioId = $stateParams.veterinarioId;
 
 
 

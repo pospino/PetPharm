@@ -1,15 +1,15 @@
 <ion-view hide-back-button="true" title="Puntos PetPharm">
 
- 
 
-  <ion-nav-buttons side="right">
-    <button ng-click="locate();" class="button button-icon icon ion-pinpoint"></button>
-  </ion-nav-buttons>
 
-  <ion-content data-tap-disabled="true">
+    <ion-nav-buttons side="right">
+        <button ng-click="locate();" class="button button-icon icon ion-pinpoint"></button>
+    </ion-nav-buttons>
 
-    <leaflet defaults="map.defaults" center="map.center" markers="map.markers" ng-if="map"></leaflet>
+    <ion-content data-tap-disabled="true">
 
-  </ion-content>
+        <leaflet defaults="map.defaults" center="map.center" markers="map.markers" ng-if="map"></leaflet>
+
+    </ion-content>
 
 </ion-view>
