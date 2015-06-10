@@ -1,4 +1,4 @@
-<ion-view class="has-tabs" hide-back-button="true" view-title="{{mascota.nombre}}">
+<ion-view  hide-back-button="true" view-title="{{mascota.nombre}}">
 
   <div class="tabs tabs-assertive tabs-icon-top">
     <a class="tab-item tabs-positive" href="#/app/mascota/{{mascota.id}}">
@@ -10,7 +10,7 @@
     </a>
     <a class="tab-item" href="#/app/veterinario/{{mascota.veterinario_id}}/{{mascota.id}}"><i class="icon ion-ios-medkit-outline"></i>Veterinarios</a>
   </div>
-  <ion-content>
+  <ion-content class="has-tabs">
     <div class="list card">
 
       <div class="item item-avatar">
