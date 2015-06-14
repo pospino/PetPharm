@@ -71,6 +71,7 @@ angular.module('starter.controllers', [])
         })
 
         .controller('MascotahcCtrl', function ($scope, $stateParams, $ionicLoading, $http, config, $ionicModal) {
+            $scope.datos = [];
             $scope.mascotaId = $stateParams.mascotaId;
             $ionicModal.fromTemplateUrl('templates/modal.html', {
                 scope: $scope,
@@ -83,21 +84,70 @@ angular.module('starter.controllers', [])
                 $scope.detalle = detalle;
                 $scope.modal.show();
             };
-            $ionicLoading.show({
-                content: 'Loading',
-                animation: 'fade-in',
-                showBackdrop: true,
-                maxWidth: 200,
-                showDelay: 0
-            });
-            url = config.apiurl + 'hc/' + $stateParams.mascotaId + '/0';
-            console.log(url);
-            $http.get(url)
-                    .success(function (data) {
-                        $scope.datos = data;
-                        $ionicLoading.hide();
-                    });
+            $scope.open2 = function (detalle, fecha) {
+                $scope.titulo = fecha;
+                $scope.detalle = "";
+                separador = "";
+                for (i = 0; i < detalle.length; i++) {
+                    $scope.detalle += separador + "<b>" + (detalle[i].tipo === "a" ? "Motivo consulta: " : "Diagnostico: ") + "</b>";
+                    $scope.detalle += detalle[i].desc;
+                    separador = "<br><br>";
+                }
 
+                $scope.modal.show();
+            };
+            $scope.closeModal = function () {
+                $scope.modal.hide();
+            };
+
+
+            $scope.Actualizar = function () {
+                $scope.datos = [];
+                console.log("leyendo");
+                Consulta(function () {
+                    console.log("Datos Actualizados");
+                });
+            };
+            $scope.Actualizar_Pull = function () {
+                $scope.datos = [];
+                console.log("Pull");
+                Consulta(function () {
+                    $scope.$broadcast('scroll.refreshComplete');
+                });
+            };
+            Consulta(function () {
+                console.log("Datos leidos");
+            });
+            function Consulta(callback) {
+                $ionicLoading.show({
+                    content: 'Loading',
+                    animation: 'fade-in',
+                    showBackdrop: true,
+                    maxWidth: 200,
+                    showDelay: 0
+                });
+                url = config.apiurl + 'hc/' + $stateParams.mascotaId + '/0';
+                console.log(url);
+                $http.get(url)
+                        .success(function (data) {
+                            for (var i = 0; i < data.length; i++) {
+                                $scope.datos[i] = {};
+                                $scope.datos[i].fecha = data[i].fecha;
+                                $scope.datos[i].detalles = [];
+                                detalles = data[i].detalles.split(":");
+                                for (var j = 0; j < detalles.length; j++) {
+                                    var det = detalles[j].split(",");
+                                    $scope.datos[i].detalles[j] = {
+                                        tipo: det[0],
+                                        desc: det[1]
+                                    }
+                                }
+                            }
+                            // $scope.datos = data;
+                            $ionicLoading.hide();
+                            callback();
+                        });
+            }
         })
 
         .controller('VeterinariosCtrl', function ($scope, $stateParams) {

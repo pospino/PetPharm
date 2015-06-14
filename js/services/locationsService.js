@@ -1,4 +1,4 @@
-angular.module('starter').factory('LocationsService', [ function() {
+    angular.module('starter').factory('LocationsService', [ function() {
 
   var locationsObj = {};
   //Se deben leer los puntos desde el API de alberto.
