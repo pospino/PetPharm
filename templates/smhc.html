@@ -1,4 +1,4 @@
-<ion-view  hide-back-button="true" view-title="{{nombre}}">
+<ion-view  hide-back-button="true" view-title="Historia Clinica">
 
     <div class="tabs tabs-assertive tabs-icon-top">
         <a class="tab-item tabs-positive" href="#/app/mascota/{{mascotaId}}">
@@ -13,29 +13,22 @@
         </a>
     </div>
     <ion-content class="has-tabs">
-        <div class="list">
-            <div class="item item-divider">
-                Ananexicos
+         <ion-refresher
+            pulling-text="Actualizar..."
+            on-refresh="Actualizar_Pull()">
+        </ion-refresher>
+        <div ng-repeat="dato in datos" class="list">
+            
+            <div class="item item-divider" ng-click="open2(dato.detalles,'{{dato.fecha}}')">
+                {{dato.fecha}}
             </div>
-            <a  ng-repeat="dato in datos" ng-if="dato.Tipo == 'a'" class="item item-icon-left" ng-click="open('{{dato.detalle}}','{{dato.fecha}}')">
-                <i class="icon ion-medkit"></i>
-                {{dato.detalle}}
+            <a ng-repeat="det in dato.detalles" class="item item-icon-left" ng-click="open('{{det.desc}}','{{det.tipo == 'a' ? 'Motivo':'Diagnostico'}}')">
+                <i class="icon {{det.tipo == 'd' ? 'ion-thermometer' : 'ion-medkit'}}"></i>
+                {{det.desc}} 
                 <span class="item-note">
-                    {{dato.fecha}}
+                   {{det.tipo == 'a' ? 'Motivo':'Diagnostico'}}
                 </span>
             </a>
-            <div class="item item-divider">
-                Diagnosticos
-            </div>
-            <a  ng-repeat="dato in datos" ng-if="dato.Tipo == 'd'" class="item item-icon-left" 
-                ng-click="open('{{dato.detalle}}','{{dato.fecha}}')">
-                <i class="icon ion-thermometer"></i>
-                {{dato.detalle}}
-                <span class="item-note">
-                    {{dato.fecha}}
-                </span>
-            </a>
-
         </div>
     </ion-content>
 </ion-view>

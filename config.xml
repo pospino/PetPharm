@@ -11,7 +11,7 @@ xmlns:cdv="http://cordova.apache.org/ns/1.0">
         Pedro Ospino - Diabetrics by Procaps
     </author>
     
-     <gap:plugin name="com.phonegap.plugins.barcodescanner" />
+    
 	 <gap:plugin name="com.phonegap.plugins.camera"
     
     <content src="index.html" />
