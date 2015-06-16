@@ -1,11 +1,11 @@
 <ion-view hide-back-button="true" view-title="Mi Perfil">
- <ion-nav-buttons side="right">
+    <ion-nav-buttons side="right">
         <button ng-click="TakePhoto()" class="button button-icon icon ion-camera"></button>
     </ion-nav-buttons>
     <ion-content>
         <div class="list card">
             <div class="item item-avatar">
-                <img src="img/petpharm.png">
+                <img ng-src="{{perfil.imagen ? perfil.imagen : 'img/petpharm.png'}}">
                 <h2>{{perfil.nombres}} {{perfil.apellidos}}</h2>
                 <p>{{perfil.ocupacion}}</p>
 
@@ -18,7 +18,7 @@
 
 
                 <p style="font-size:x-small; text-align:justify;">
-                    Estos datos se encuentran en PetPharmApp para <b>{{perfil.nombres+" "+ perfil.apellidos}}</b>.
+                    Estos datos se encuentran en PetPharmApp para <b>{{perfil.nombres + " " + perfil.apellidos}}</b>.
                     Si hay alguna inconsistencia acercate a un punto PetPharm para actualizar los datos.
                 </p>
 
