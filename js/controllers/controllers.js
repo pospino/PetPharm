@@ -53,7 +53,7 @@ angular.module('starter.controllers', [])
 
         })
 
-        .controller('SingleMascotaCtrl', function ($scope, $stateParams, config, $http, $ionicLoading, $localStorage,Camera) {
+        .controller('SingleMascotaCtrl', function ($scope, $stateParams, config, $http, $ionicLoading, $localStorage, Camera) {
             $ionicLoading.show({
                 content: 'Loading',
                 animation: 'fade-in',
@@ -61,13 +61,19 @@ angular.module('starter.controllers', [])
                 maxWidth: 200,
                 showDelay: 0
             });
-             $scope.TakePhoto = function () {
-                Camera.getPicture({correctOrientation: true}).then(function (imageURI) {
-                    console.log(imageURI);
-                    $scope.perfil.imagen = imageURI;
-                }, function (err) {
-                    console.err(err);
-                });
+            $scope.TakePhoto = function () {
+                Camera.getPicture({
+                    correctOrientation: true,
+                    quality: 50,
+                    destinationType: Camera.DestinationType.DATA_URL
+                })
+                        .then(function (imageData) {
+                            console.log(imageData);
+                            $scope.perfil.imagen = "data:image/jpeg;base64," + imageData;
+                            ;
+                        }, function (err) {
+                            console.err(err);
+                        });
             };
             url = config.apiurl + 'pet/' + $stateParams.mascotaId + '/' + $localStorage.id_usuario;
             console.log(url);
@@ -233,14 +239,20 @@ angular.module('starter.controllers', [])
                         $scope.perfil = data[0];
                         $ionicLoading.hide();
                     });
-                    
+
             $scope.TakePhoto = function () {
-                Camera.getPicture({correctOrientation: true}).then(function (imageURI) {
-                    console.log(imageURI);
-                    $scope.perfil.imagen = imageURI;
-                }, function (err) {
-                    console.err(err);
-                });
+                Camera.getPicture({
+                    correctOrientation: true,
+                    quality: 50,
+                    destinationType: Camera.DestinationType.DATA_URL
+                })
+                        .then(function (imageData) {
+                            console.log(imageData);
+                            $scope.perfil.imagen = "data:image/jpeg;base64," + imageData;
+                            ;
+                        }, function (err) {
+                            console.err(err);
+                        });
             };
         })
 
