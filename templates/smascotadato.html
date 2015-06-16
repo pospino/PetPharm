@@ -1,5 +1,7 @@
 <ion-view  hide-back-button="true" view-title="{{mascota.nombre}}">
-
+ <ion-nav-buttons side="right">
+        <button ng-click="TakePhoto()" class="button button-icon icon ion-camera"></button>
+    </ion-nav-buttons>
     <div class="tabs tabs-assertive tabs-icon-top">
         <a class="tab-item tabs-positive" href="#/app/mascota/{{mascota.id}}">
             <i class="icon ion-ios-paw"></i>

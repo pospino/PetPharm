@@ -53,7 +53,7 @@ angular.module('starter.controllers', [])
 
         })
 
-        .controller('SingleMascotaCtrl', function ($scope, $stateParams, config, $http, $ionicLoading, $localStorage) {
+        .controller('SingleMascotaCtrl', function ($scope, $stateParams, config, $http, $ionicLoading, $localStorage,Camera) {
             $ionicLoading.show({
                 content: 'Loading',
                 animation: 'fade-in',
@@ -61,6 +61,14 @@ angular.module('starter.controllers', [])
                 maxWidth: 200,
                 showDelay: 0
             });
+             $scope.TakePhoto = function () {
+                Camera.getPicture({correctOrientation: true}).then(function (imageURI) {
+                    console.log(imageURI);
+                    $scope.perfil.imagen = imageURI;
+                }, function (err) {
+                    console.err(err);
+                });
+            };
             url = config.apiurl + 'pet/' + $stateParams.mascotaId + '/' + $localStorage.id_usuario;
             console.log(url);
             $http.get(url)
