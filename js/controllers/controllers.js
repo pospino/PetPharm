@@ -209,7 +209,7 @@ angular.module('starter.controllers', [])
 
         })
 
-        .controller('PerfilCtrl', function ($scope, $http, $localStorage, $ionicLoading, config) {
+        .controller('PerfilCtrl', function ($scope, $http, $localStorage, $ionicLoading, config, Camera) {
             $scope.perfil = {};
             $ionicLoading.show({
                 content: 'Loading',
@@ -225,6 +225,14 @@ angular.module('starter.controllers', [])
                         $scope.perfil = data[0];
                         $ionicLoading.hide();
                     });
+                    
+            $scope.TakePhoto = function () {
+                Camera.getPicture().then(function (imageURI) {
+                    console.log(imageURI);
+                }, function (err) {
+                    console.err(err);
+                });
+            };
         })
 
 
