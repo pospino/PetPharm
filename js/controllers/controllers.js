@@ -64,8 +64,8 @@ angular.module('starter.controllers', [])
             $scope.TakePhoto = function () {
                 Camera.getPicture({
                     correctOrientation: true,
-                   
-                   
+                    quality: 50,
+                    destinationType: Camera.DestinationType.DATA_URL,
                 })
                         .then(function (imageData) {
                             console.log(imageData);
@@ -243,7 +243,8 @@ angular.module('starter.controllers', [])
             $scope.TakePhoto = function () {
                 Camera.getPicture({
                     correctOrientation: true,
-                    
+                    quality: 50,
+                    destinationType: Camera.DestinationType.DATA_URL,
                 })
                         .then(function (imageData) {
                             console.log(imageData);
@@ -277,7 +278,6 @@ angular.module('starter.controllers', [])
                                 $scope.map.center.lat = position.coords.latitude;
                                 $scope.map.center.lng = position.coords.longitude;
                                 $scope.map.center.zoom = 15;
-
                                 $scope.map.markers.now = {
                                     lat: position.coords.latitude,
                                     lng: position.coords.longitude,
@@ -313,8 +313,7 @@ angular.module('starter.controllers', [])
                 {nombre: 'Veterinario 3', clinica: 'Clinica 1', id: 3},
                 {nombre: 'Veterinario 4', clinica: 'Clinica 3', id: 4},
                 {nombre: 'Veterinario 5', clinica: 'Clinica 4', id: 5},
-                {nombre: 'Veterinario 6', clinica: 'Clinica 2', id: 6}
-            ];
+                {nombre: 'Veterinario 6', clinica: 'Clinica 2', id: 6}];
         })
 
         .controller('LoginCtrl', function ($scope, $state, $localStorage, $stateParams, AuthService,
@@ -353,7 +352,6 @@ angular.module('starter.controllers', [])
                         $ionicLoading.hide();
                         $scope.ShowError = true;
                         $scope.Error = response.data;
-
                     }
                 });
 
@@ -372,8 +370,7 @@ angular.module('starter.controllers', [])
                     config = {
                         "badge": "true",
                         "sound": "true",
-                        "alert": "true"
-                    }
+                        "alert": "true"}
                 }
 
                 $cordovaPush.register(config).then(function (result) {
