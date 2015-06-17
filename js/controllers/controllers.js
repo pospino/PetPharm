@@ -266,6 +266,7 @@ angular.module('starter.controllers', [])
                 params.tipo = "d";
                 params.id = $localStorage.id_usuario;
                 options.params = params;
+                console.log(options.fileName);
                 var ft = new FileTransfer();
                 ft.upload(imageURI, "http://webapi.petpharm.net/uploadImage.php", win, fail, options);
                 $ionicLoading.hide();
