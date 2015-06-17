@@ -248,29 +248,35 @@ angular.module('starter.controllers', [])
                     maxWidth: 200,
                     showDelay: 0
                 });
-                Camera.getPicture({correctOrientation: true}).then(function (imageURI) {
+                var options = {
+                    quality: 50,
+                    destinationType: Camera.DestinationType.FILE_URI,
+                    sourceType: 1, // 0:Photo Library, 1=Camera, 2=Saved Photo Album
+                    encodingType: 0     // 0=JPG 1=PNG
+                };
+                Camera.getPicture(options).then(function (imageURI) {
                     console.log(imageURI);
                     $scope.perfil.imagen = imageURI;
-                    uploadPhoto(imageURI);
+                    send();
                 }, function (err) {
                     console.err(err);
                 });
 
             };
-            function uploadPhoto(imageURI) {
+            function send() {
+                var myImg = $scope.perfil.imagen;
                 var options = new FileUploadOptions();
-                options.fileKey = "file";
-                options.fileName = imageURI.substr(imageURI.lastIndexOf('/') + 1);
-                options.mimeType = "image/jpeg";
-                var params = new Object();
+                options.fileKey = "post";
+                options.chunkedMode = false;
+                var params = {};
                 params.tipo = "d";
                 params.id = $localStorage.id_usuario;
                 options.params = params;
-                console.log(options.fileName);
                 var ft = new FileTransfer();
-                ft.upload(imageURI, "http://webapi.petpharm.net/uploadImage.php", win, fail, options);
-                $ionicLoading.hide();
+                ft.upload(myImg, encodeURI("http://webapi.petpharm.net/uploadImage.php"), win, fail, options);
+                 $ionicLoading.hide();
             }
+            
             function win(r) {
                 console.log("Code = " + r.responseCode);
                 console.log("Response = " + r.response);
