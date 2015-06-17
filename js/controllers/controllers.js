@@ -241,13 +241,7 @@ angular.module('starter.controllers', [])
                     });
 
             $scope.TakePhoto = function () {
-                $ionicLoading.show({
-                    content: 'Loading',
-                    animation: 'fade-in',
-                    showBackdrop: true,
-                    maxWidth: 200,
-                    showDelay: 0
-                });
+
                 var options = {
                     quality: 50,
                     destinationType: Camera.DestinationType.FILE_URI,
@@ -257,11 +251,18 @@ angular.module('starter.controllers', [])
                 navigator.camera.getPicture(onSuccess, onFail, options);
             };
             var onSuccess = function (FILE_URI) {
+                $ionicLoading.show({
+                    content: 'Loading',
+                    animation: 'fade-in',
+                    showBackdrop: true,
+                    maxWidth: 200,
+                    showDelay: 0
+                });
                 console.log(FILE_URI);
                 $scope.perfil.imagen = FILE_URI;
                 $scope.$apply();
                 send();
-                $ionicLoading.hide();
+
             };
             var onFail = function (e) {
                 console.log("On fail " + e);
@@ -284,9 +285,11 @@ angular.module('starter.controllers', [])
                 console.log("Code = " + r.responseCode);
                 console.log("Response = " + r.response);
                 console.log("Sent = " + r.bytesSent);
+                $ionicLoading.hide();
             }
             function fail(error) {
                 console.log("An error has occurred: Code = " + error.code);
+                $ionicLoading.hide();
             }
         })
 
