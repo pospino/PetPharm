@@ -53,7 +53,7 @@ angular.module('starter.controllers', [])
 
         })
 
-        .controller('SingleMascotaCtrl', function ($scope, $stateParams, config, $http, $ionicLoading, $localStorage, Camera) {
+        .controller('SingleMascotaCtrl', function ($scope, $cordovaFileTransfer, $stateParams, config, $http, $ionicLoading, $localStorage, Camera) {
             $ionicLoading.show({
                 content: 'Loading',
                 animation: 'fade-in',
@@ -61,6 +61,7 @@ angular.module('starter.controllers', [])
                 maxWidth: 200,
                 showDelay: 0
             });
+
             $scope.TakePhoto = function () {
 
                 Camera.getPicture().then(function (imageURI) {
@@ -78,6 +79,9 @@ angular.module('starter.controllers', [])
                         $scope.mascota = data[0];
                         $ionicLoading.hide();
                     });
+            var upload = function () {
+
+            };
         })
 
         .controller('MascotahcCtrl', function ($scope, $stateParams, $ionicLoading, $http, config, $ionicModal) {
@@ -237,15 +241,42 @@ angular.module('starter.controllers', [])
                     });
 
             $scope.TakePhoto = function () {
-
+                $ionicLoading.show({
+                    content: 'Loading',
+                    animation: 'fade-in',
+                    showBackdrop: true,
+                    maxWidth: 200,
+                    showDelay: 0
+                });
                 Camera.getPicture({correctOrientation: true}).then(function (imageURI) {
                     console.log(imageURI);
                     $scope.perfil.imagen = imageURI;
+                    uploadPhoto(imageURI);
                 }, function (err) {
                     console.err(err);
                 });
 
             };
+            function uploadPhoto(imageURI) {
+                var options = new FileUploadOptions();
+                options.fileKey = "file";
+                options.fileName = imageURI.substr(imageURI.lastIndexOf('/') + 1);
+                options.mimeType = "image/jpeg";
+                var params = new Object();
+                params.tipo = "d";
+                options.params = params;
+                var ft = new FileTransfer();
+                ft.upload(imageURI, "http://webapi.petpharm.net/uploadImage.php", win, fail, options);
+                $ionicLoading.hide();
+            }
+            function win(r) {
+                console.log("Code = " + r.responseCode);
+                console.log("Response = " + r.response);
+                console.log("Sent = " + r.bytesSent);
+            }
+            function fail(error) {
+                console.log("An error has occurred: Code = " + error.code);
+            }
         })
 
 
