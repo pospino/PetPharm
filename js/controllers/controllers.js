@@ -254,29 +254,32 @@ angular.module('starter.controllers', [])
                     sourceType: 1, // 0:Photo Library, 1=Camera, 2=Saved Photo Album
                     encodingType: 0     // 0=JPG 1=PNG
                 };
-                Camera.getPicture(options).then(function (imageURI) {
-                    console.log(imageURI);
-                    $scope.perfil.imagen = imageURI;
-                    send();
-                }, function (err) {
-                    console.err(err);
-                });
-
+                navigator.camera.getPicture(onSuccess, onFail, options);
             };
+            var onSuccess = function (FILE_URI) {
+                console.log(FILE_URI);
+                $scope.perfil.imagen = FILE_URI;
+                $scope.$apply();
+                send();
+                $ionicLoading.hide();
+            };
+            var onFail = function (e) {
+                console.log("On fail " + e);
+                $ionicLoading.hide();
+            }
             function send() {
                 var myImg = $scope.perfil.imagen;
                 var options = new FileUploadOptions();
                 options.fileKey = "post";
                 options.chunkedMode = false;
                 var params = {};
-                params.tipo = "d";
                 params.id = $localStorage.id_usuario;
+                params.tipo = "d";
                 options.params = params;
                 var ft = new FileTransfer();
                 ft.upload(myImg, encodeURI("http://webapi.petpharm.net/uploadImage.php"), win, fail, options);
-                 $ionicLoading.hide();
             }
-            
+
             function win(r) {
                 console.log("Code = " + r.responseCode);
                 console.log("Response = " + r.response);
