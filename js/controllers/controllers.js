@@ -65,7 +65,7 @@ angular.module('starter.controllers', [])
                 Camera.getPicture({
                     correctOrientation: true,
                    
-                    destinationType: Camera.DestinationType.DATA_URL
+                   
                 })
                         .then(function (imageData) {
                             console.log(imageData);
@@ -243,7 +243,7 @@ angular.module('starter.controllers', [])
             $scope.TakePhoto = function () {
                 Camera.getPicture({
                     correctOrientation: true,
-                    destinationType: Camera.DestinationType.DATA_URL
+                    
                 })
                         .then(function (imageData) {
                             console.log(imageData);
