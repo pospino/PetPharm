@@ -264,6 +264,7 @@ angular.module('starter.controllers', [])
                 options.mimeType = "image/jpeg";
                 var params = new Object();
                 params.tipo = "d";
+                params.id = $localStorage.id_usuario;
                 options.params = params;
                 var ft = new FileTransfer();
                 ft.upload(imageURI, "http://webapi.petpharm.net/uploadImage.php", win, fail, options);
