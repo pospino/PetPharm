@@ -238,7 +238,7 @@ angular.module('starter.controllers', [])
 
             $scope.TakePhoto = function () {
 
-                Camera.getPicture().then(function (imageURI) {
+                Camera.getPicture({correctOrientation: true}).then(function (imageURI) {
                     console.log(imageURI);
                     $scope.perfil.imagen = imageURI;
                 }, function (err) {
