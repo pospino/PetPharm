@@ -65,7 +65,7 @@ angular.module('starter.controllers', [])
 
                 Camera.getPicture().then(function (imageURI) {
                     console.log(imageURI);
-                    $scope.perfil.imagen = imageURI;
+                    $scope.mascota.imagen = imageURI;
                 }, function (err) {
                     console.err(err);
                 });
