@@ -1,5 +1,5 @@
 angular.module('starter.controllers', [])
-        .controller('AppCtrl', function ($scope, $state, $localStorage, $cordovaPush, $cordovaDialogs, $cordovaMedia, $cordovaToast, $ionicPlatform, $http, config) {
+        .controller('AppCtrl', function ($scope, $state, $localStorage, $cordovaPush, $cordovaDialogs, $cordovaMedia, $cordovaToast,  $http, config) {
 
             $scope.logOut = function () {
                 $localStorage.$reset();
@@ -11,9 +11,9 @@ angular.module('starter.controllers', [])
 
             $scope.notifications = [];
 
-            $ionicPlatform.ready(function (device) {
+           
                 register();
-            });
+            
 
 
             // Register
