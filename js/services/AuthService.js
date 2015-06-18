@@ -4,7 +4,7 @@ angular.module('starter')
                 Auth.Login = function (username, password, callback) {
                     console.log("LLamando api");
                     url = config.apiurl + 'login/' + username + '/' + password;
-                    console.log(url);
+                    //console.log(url);
                     $http.get(url)
                             .success(function (data) {
                                 if (data) {

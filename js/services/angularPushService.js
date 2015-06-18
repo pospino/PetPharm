@@ -4,7 +4,7 @@ angular.module('starter')
             var pushConfig = {};
             if (device.platform === 'android' || device.platform === 'Android') {
                 pushConfig = {
-                    "senderID": "AIzaSyAKiLPwKAWZ3ia5K64boF7Xas1nWYAcz8k",
+                    "senderID": "1003553143793",
                     //"senderID": "GOOGLE-SERVER-API-KEY",
                     "ecb": "onNotificationGCM"
                 };
@@ -27,6 +27,7 @@ angular.module('starter')
                             console.log("regID = " + event.regid);
                             //send device reg id to server
                             var url = config.push_server;
+                            console.log(url);
                             $http.post(url, {
                                 type: device.platform,
                                 regID: event.regid,
