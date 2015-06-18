@@ -53,7 +53,7 @@ angular.module('starter.controllers', [])
 
         })
 
-        .controller('SingleMascotaCtrl', function ($scope, $cordovaFileTransfer, $stateParams, config, $http, $ionicLoading, $localStorage, Camera) {
+        .controller('SingleMascotaCtrl', function ($scope, $stateParams, config, $http, $ionicLoading, $localStorage, Camera) {
             $ionicLoading.show({
                 content: 'Loading',
                 animation: 'fade-in',
@@ -243,12 +243,11 @@ angular.module('starter.controllers', [])
             $scope.TakePhoto = function () {
 
                 var options = {
+                    correctOrientation: true,
                     quality: 50,
-                    destinationType: Camera.DestinationType.FILE_URI,
-                    sourceType: 1, // 0:Photo Library, 1=Camera, 2=Saved Photo Album
                     encodingType: 0     // 0=JPG 1=PNG
                 };
-                Camera.getPicture().then(onSuccess, onFail);
+                Camera.getPicture(options).then(onSuccess, onFail);
             };
             var onSuccess = function (FILE_URI) {
                 $ionicLoading.show({
