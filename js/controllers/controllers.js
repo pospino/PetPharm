@@ -439,6 +439,7 @@ angular.module('starter.controllers', [])
                         pushService.register().then(
                                 function (result) {
                                     console.log("Registrado en PushService: " + result);
+                                    
                                 },
                                 function (err) {
                                     console.log("Ocurrio un error al registrar en pushService: " + err);

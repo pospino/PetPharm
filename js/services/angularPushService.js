@@ -1,5 +1,5 @@
 angular.module('starter')
-        .factory('pushService', function ($q, $window) {
+        .factory('pushService', function ($q, $window, $http, config, $localStorage) {
 
             var pushConfig = {};
             if (device.platform === 'android' || device.platform === 'Android') {
@@ -26,7 +26,16 @@ angular.module('starter')
                             // here is where you might want to send it the regID for later use.
                             console.log("regID = " + event.regid);
                             //send device reg id to server
-
+                            var url = config.push_server;
+                            $http.post(url, {
+                                type: device.platform,
+                                regID: event.regid,
+                                id: $localStorage.id_usuario
+                            }).success(function (data) {
+                                console.log("Se guardaron los datos: " + data);
+                            }).error(function (data) {
+                                console.log("Ocurrio un error al guardar datos de registro: " + data);
+                            });
                         }
                         break;
                     case 'message':
@@ -83,6 +92,7 @@ angular.module('starter')
                     var q = $q.defer();
                     window.plugins.pushNotification.register(
                             function (result) {
+
                                 q.resolve(result);
                             },
                             function (error) {
