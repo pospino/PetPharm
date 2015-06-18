@@ -62,16 +62,7 @@ angular.module('starter.controllers', [])
                 showDelay: 0
             });
 
-            $scope.TakePhoto = function () {
-
-                Camera.getPicture().then(function (imageURI) {
-                    console.log(imageURI);
-                    $scope.mascota.imagen = imageURI;
-                }, function (err) {
-                    console.err(err);
-                });
-
-            };
+           
             url = config.apiurl + 'pet/' + $stateParams.mascotaId + '/' + $localStorage.id_usuario;
             console.log(url);
             $http.get(url)
@@ -79,9 +70,58 @@ angular.module('starter.controllers', [])
                         $scope.mascota = data[0];
                         $ionicLoading.hide();
                     });
-            var upload = function () {
+           $scope.TakePhoto = function () {
+
+                var options = {
+                    correctOrientation: true,
+                    quality: 50,
+                    encodingType: 0     // 0=JPG 1=PNG
+                };
+                Camera.getPicture(options).then(onSuccess, onFail);
+            };
+            var onSuccess = function (FILE_URI) {
+                $ionicLoading.show({
+                    content: 'Loading',
+                    animation: 'fade-in',
+                    showBackdrop: true,
+                    maxWidth: 200,
+                    showDelay: 0
+                });
+                console.log(FILE_URI);
+                $scope.perfil.imagen = FILE_URI;
+                $scope.$apply();
+                send();
 
             };
+            var onFail = function (e) {
+                console.log("On fail " + e);
+                $ionicLoading.hide();
+            }
+            function send() {
+                var myImg = $scope.perfil.imagen;
+                var options = new FileUploadOptions();
+                options.fileKey = "file";
+                options.fileName = myImg.substr(myImg.lastIndexOf('/') + 1);
+                options.mimeType = "image/jpeg";
+                options.chunkedMode = false;
+                var params = {};
+                params.id = $scope.mascota.id;
+                params.tipo = "m";
+                options.params = params;
+                var ft = new FileTransfer();
+                ft.upload(myImg, encodeURI("http://webapi.petpharm.net/uploadImage.php"), win, fail, options);
+            }
+
+            function win(r) {
+                console.log("Code = " + r.responseCode);
+                console.log("Response = " + r.response);
+                console.log("Sent = " + r.bytesSent);
+                $ionicLoading.hide();
+            }
+            function fail(error) {
+                console.log("An error has occurred: Code = " + error.code);
+                $ionicLoading.hide();
+            }
         })
 
         .controller('MascotahcCtrl', function ($scope, $stateParams, $ionicLoading, $http, config, $ionicModal) {
