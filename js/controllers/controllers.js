@@ -405,7 +405,7 @@ angular.module('starter.controllers', [])
         })
 
         .controller('LoginCtrl', function ($scope, $state, $localStorage, AuthService,
-                $ionicLoading, $pushService) {
+                $ionicLoading, pushService) {
             console.log("LLego al login");
             if ($localStorage.username) {
                 $state.go("app.gps");
@@ -436,7 +436,7 @@ angular.module('starter.controllers', [])
                         $localStorage.id_usuario = response.id_usuario;
                         $ionicLoading.hide();
                         $state.go("app.gps");
-                        $pushService.register().then(
+                        pushService.register().then(
                                 function (result) {
                                     console.log("Registrado en PushService: " + result);
                                 },
