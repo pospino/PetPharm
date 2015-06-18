@@ -62,15 +62,18 @@ angular.module('starter.controllers', [])
                 showDelay: 0
             });
 
-           $scope.mascota = {};
+            $scope.mascota = {};
             url = config.apiurl + 'pet/' + $stateParams.mascotaId + '/' + $localStorage.id_usuario;
             console.log(url);
             $http.get(url)
                     .success(function (data) {
                         $scope.mascota = data[0];
+                        if ($scope.mascota.imagen !== null) {
+                            $scope.mascota.imagen = config.ruta_mascota + $scope.mascota.imagen;
+                        }
                         $ionicLoading.hide();
                     });
-           $scope.TakePhoto = function () {
+            $scope.TakePhoto = function () {
 
                 var options = {
                     correctOrientation: true,
@@ -277,6 +280,9 @@ angular.module('starter.controllers', [])
             $http.get(url)
                     .success(function (data) {
                         $scope.perfil = data[0];
+                        if ($scope.perfil.imagen !== null) {
+                            $scope.perfil.imagen = config.ruta_perfil + $scope.perfil.imagen;
+                        }
                         $ionicLoading.hide();
                     });
 
