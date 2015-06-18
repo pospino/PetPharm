@@ -1,10 +1,9 @@
 angular.module('starter.controllers', [])
-        .controller('AppCtrl', function ($scope, $state, $localStorage) {
+        .controller('AppCtrl', function ($scope, $state, $localStorage,$location) {
 
             $scope.logOut = function () {
                 $localStorage.$reset();
-                $state.go("login");
-
+                $location.url('/login');
             };
 
 
