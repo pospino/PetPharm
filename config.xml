@@ -16,6 +16,10 @@
     <gap:plugin name="org.apache.cordova.file-transfer"  />
     <gap:plugin name="com.phonegap.plugins.pushplugin"  />
     <gap:plugin name="org.apache.cordova.device"  />
+    <gap:plugin name="org.apache.cordova.console"  />
+    <gap:plugin name="org.apache.cordova.dialogs"  />
+    <gap:plugin name="org.apache.cordova.media"  />
+    <gap:plugin name="nl.x-services.plugins.toast" source="plugins.cordova.io" />
     
     <content src="index.html" />
     <plugin name="cordova-plugin-whitelist" version="1" />
