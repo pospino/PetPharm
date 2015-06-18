@@ -1,5 +1,5 @@
 angular.module('starter.controllers', [])
-        .controller('AppCtrl', function ($scope, $state, $localStorage, $cordovaPush, $cordovaDialogs, $cordovaMedia, $cordovaToast, ionPlatform, $http,config) {
+        .controller('AppCtrl', function ($scope, $state, $localStorage, $cordovaPush, $cordovaDialogs, $cordovaMedia, $cordovaToast, ionPlatform, $http, config) {
 
             $scope.logOut = function () {
                 $localStorage.$reset();
@@ -19,13 +19,15 @@ angular.module('starter.controllers', [])
             // Register
             $scope.register = function () {
                 var config = null;
-
+                console.log("Registrando");
                 if (ionic.Platform.isAndroid()) {
+                    console.log("es android");
                     config = {
                         "senderID": "bold-seat-95923" // REPLACE THIS WITH YOURS FROM GCM CONSOLE - also in the project URL like: https://console.developers.google.com/project/434205989073
                     };
                 }
                 else if (ionic.Platform.isIOS()) {
+                    console.log("es IOS");
                     config = {
                         "badge": "true",
                         "sound": "true",
@@ -127,10 +129,10 @@ angular.module('starter.controllers', [])
             // type:  Platform type (ios, android etc)
             function storeDeviceToken(type) {
                 // Create a random userid to store with it
-                var user = { push_type: type, push_token: $scope.regId};
+                var user = {push_type: type, push_token: $scope.regId};
                 console.log("Post token for registered device with data " + JSON.stringify(user));
 
-                $http.post(config.apiurl + 'push_suscribe/'+$localStorage.id_usuario, JSON.stringify(user))
+                $http.post(config.apiurl + 'dueno_mascota/' + $localStorage.id_usuario, JSON.stringify(user))
                         .success(function (data, status) {
                             console.log("Token stored, device is successfully subscribed to receive push notifications.");
                         })
