@@ -345,38 +345,42 @@ angular.module('starter.controllers', [])
         .controller('PuntosCtrl', function ($scope, $cordovaGeolocation, $ionicLoading, LocationsService) {
 
             $scope.lista = [];
+            function WIAM() {
+                $ionicLoading.show({
+                    content: 'Loading',
+                    animation: 'fade-in',
+                    showBackdrop: true,
+                    maxWidth: 200,
+                    showDelay: 0
+                });
+                $cordovaGeolocation
+                        .getCurrentPosition()
+                        .then(function (position) {
+                            $scope.map.center.lat = position.coords.latitude;
+                            $scope.map.center.lng = position.coords.longitude;
+                            $scope.map.center.zoom = 15;
+                            $scope.map.markers.now = {
+                                lat: position.coords.latitude,
+                                lng: position.coords.longitude,
+                                message: "<b>Tu estas aqui</b>",
+                                focus: true,
+                                draggable: false
+                            };
+                            $ionicLoading.hide();
+
+                        }, function (err) {
+                            // error
+                            console.log("Location error!");
+                            console.log(err);
+                        });
+
+
+            }
             $scope.$on("$stateChangeSuccess", function () {
 
                 $scope.puntos = LocationsService.savedLocations;
                 $scope.locate = function () {
-                    $ionicLoading.show({
-                        content: 'Loading',
-                        animation: 'fade-in',
-                        showBackdrop: true,
-                        maxWidth: 200,
-                        showDelay: 0
-                    });
-                    $cordovaGeolocation
-                            .getCurrentPosition()
-                            .then(function (position) {
-                                $scope.map.center.lat = position.coords.latitude;
-                                $scope.map.center.lng = position.coords.longitude;
-                                $scope.map.center.zoom = 15;
-                                $scope.map.markers.now = {
-                                    lat: position.coords.latitude,
-                                    lng: position.coords.longitude,
-                                    message: "<b>Tu estas aqui</b>",
-                                    focus: true,
-                                    draggable: false
-                                };
-                                $ionicLoading.hide();
-
-                            }, function (err) {
-                                // error
-                                console.log("Location error!");
-                                console.log(err);
-                            });
-
+                    WIAM();
                 };
                 $scope.map = {
                     center: {
@@ -390,14 +394,9 @@ angular.module('starter.controllers', [])
                     },
                     markers: $scope.puntos,
                 };
+                WIAM();
             });
-            $scope.lista = [
-                {nombre: 'Veterinario 1', clinica: 'Clinica 1', id: 1},
-                {nombre: 'Veterinario 2', clinica: 'Clinica 2', id: 2},
-                {nombre: 'Veterinario 3', clinica: 'Clinica 1', id: 3},
-                {nombre: 'Veterinario 4', clinica: 'Clinica 3', id: 4},
-                {nombre: 'Veterinario 5', clinica: 'Clinica 4', id: 5},
-                {nombre: 'Veterinario 6', clinica: 'Clinica 2', id: 6}];
+           
         })
 
         .controller('LoginCtrl', function ($scope, $state, $localStorage, $stateParams, AuthService,
