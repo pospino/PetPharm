@@ -16,7 +16,7 @@
         <ion-list>
             <a ng-repeat="mascota in lista| filter: stext" href="#/app/mascota/{{mascota.id}}" class="item item-thumbnail-left">
 
-                <img ng-src="img/{{mascota.image?mascota.image:'petpharm.png'}}" style="width:50%" />
+                <img ng-src="{{mascota.imagen?ruta_img + mascota.imagen:'img/petpharm.png'}}" style="width:50%" />
                 <h2>{{mascota.nombre}}</h2>
                 <h4>{{mascota.raza}}</h4>
             </a>

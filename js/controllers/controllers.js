@@ -37,7 +37,7 @@ angular.module('starter.controllers', [])
                     showDelay: 0
                 });
                 console.log("entro");
-
+                $scope.ruta_img = config.ruta_mascota;
                 url = config.apiurl + 'mismascotas/' + $localStorage.id_usuario + '/' + 0;
                 console.log(url);
                 $http.get(url)
