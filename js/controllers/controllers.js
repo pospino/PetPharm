@@ -270,7 +270,9 @@ angular.module('starter.controllers', [])
             function send() {
                 var myImg = $scope.perfil.imagen;
                 var options = new FileUploadOptions();
-                options.fileKey = "post";
+                options.fileKey = "file";
+                options.fileName = myImg.substr(myImg.lastIndexOf('/') + 1);
+                options.mimeType = "image/jpeg";
                 options.chunkedMode = false;
                 var params = {};
                 params.id = $localStorage.id_usuario;
