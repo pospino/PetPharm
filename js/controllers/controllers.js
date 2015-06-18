@@ -62,7 +62,7 @@ angular.module('starter.controllers', [])
                 showDelay: 0
             });
 
-           
+           $scope.mascota = {};
             url = config.apiurl + 'pet/' + $stateParams.mascotaId + '/' + $localStorage.id_usuario;
             console.log(url);
             $http.get(url)
@@ -88,7 +88,7 @@ angular.module('starter.controllers', [])
                     showDelay: 0
                 });
                 console.log(FILE_URI);
-                $scope.perfil.imagen = FILE_URI;
+                $scope.mascota.imagen = FILE_URI;
                 $scope.$apply();
                 send();
 
@@ -98,7 +98,7 @@ angular.module('starter.controllers', [])
                 $ionicLoading.hide();
             }
             function send() {
-                var myImg = $scope.perfil.imagen;
+                var myImg = $scope.mascota.imagen;
                 var options = new FileUploadOptions();
                 options.fileKey = "file";
                 options.fileName = myImg.substr(myImg.lastIndexOf('/') + 1);
