@@ -2,19 +2,23 @@ angular.module('starter')
         .factory('pushService', function ($q, $window, $http, config, $localStorage) {
 
             var pushConfig = {};
-            if (device.platform === 'android' || device.platform === 'Android') {
+            if (device.platform === 'android' || device.platform === 'Android')
+            {
                 pushConfig = {
                     "senderID": "1003553143793",
                     //"senderID": "GOOGLE-SERVER-API-KEY",
                     "ecb": "onNotificationGCM"
                 };
-            } else {
-                pushConfig = {
-                    "badge": "true",
-                    "sound": "true",
-                    "alert": "true",
-                    "ecb": "onNotificationAPN"
-                };
+            } 
+            else
+            {
+                pushConfig =
+                        {
+                            "badge": "true",
+                            "sound": "true",
+                            "alert": "true",
+                            "ecb": "onNotificationAPN"
+                        };
             }
 
             // handle GCM notifications for Android

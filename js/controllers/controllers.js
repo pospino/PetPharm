@@ -1,12 +1,19 @@
 angular.module('starter.controllers', [])
-        .controller('AppCtrl', function ($scope, $state, $localStorage,$location) {
+        .controller('AppCtrl', function ($scope, $localStorage, $location, pushService) {
 
             $scope.logOut = function () {
                 $localStorage.$reset();
                 $location.url('/login');
             };
 
+            pushService.register().then(
+                    function (result) {
+                        console.log("Registrado en PushService: " + result);
 
+                    },
+                    function (err) {
+                        console.log("Ocurrio un error al registrar en pushService: " + err);
+                    });
 
 
 
@@ -345,8 +352,6 @@ angular.module('starter.controllers', [])
             }
         })
 
-
-
         .controller('PuntosCtrl', function ($scope, $cordovaGeolocation, $ionicLoading, LocationsService) {
 
             $scope.lista = [];
@@ -374,6 +379,8 @@ angular.module('starter.controllers', [])
                             $ionicLoading.hide();
 
                         }, function (err) {
+                            $ionicLoading.hide();
+
                             // error
                             console.log("Location error!");
                             console.log(err);
@@ -405,7 +412,7 @@ angular.module('starter.controllers', [])
         })
 
         .controller('LoginCtrl', function ($scope, $state, $localStorage, AuthService,
-                $ionicLoading, pushService) {
+                $ionicLoading) {
             console.log("LLego al login");
             if ($localStorage.username) {
                 $state.go("app.gps");
@@ -436,14 +443,7 @@ angular.module('starter.controllers', [])
                         $localStorage.id_usuario = response.id_usuario;
                         $ionicLoading.hide();
                         $state.go("app.gps");
-                        pushService.register().then(
-                                function (result) {
-                                    console.log("Registrado en PushService: " + result);
-                                    
-                                },
-                                function (err) {
-                                    console.log("Ocurrio un error al registrar en pushService: " + err);
-                                });
+
                     } else {
                         $ionicLoading.hide();
                         $scope.ShowError = true;
