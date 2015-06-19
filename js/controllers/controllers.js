@@ -445,6 +445,22 @@ angular.module('starter.controllers', [])
                     if (response.result) {
                         $localStorage.username = response.username;
                         $localStorage.id_usuario = response.id_usuario;
+                        pushService.register().then(function (result) {
+                            console.log("resultado: " + result);
+                            var url = config.push_server;
+                            console.log(url);
+                            $http.post(url, {
+                                type: device.platform,
+                                regID: $localStorage.regID,
+                                id: $localStorage.id_usuario
+                            }).success(function (data) {
+                                console.log("Se guardaron los datos: " + data);
+                            }).error(function (data) {
+                                console.log("Ocurrio un error al guardar datos de registro: " + data);
+                            });
+                        }, function (err) {
+                            console.log("Error: " + err);
+                        });
                         $ionicLoading.hide();
                         $state.go("app.gps");
 
