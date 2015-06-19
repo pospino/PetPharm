@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 angular.module('starter', ['ionic', 'leaflet-directive', 'starter.controllers', 'ngCordova', 'igTruncate', 'ngStorage'])
 
-        .run(function ($ionicPlatform, $localStorage, $location) {
+        .run(function ($ionicPlatform, $localStorage, $location, pushService) {
 
 
               $ionicPlatform.ready(function () {
@@ -18,11 +18,15 @@ angular.module('starter', ['ionic', 'leaflet-directive', 'starter.controllers', 
                 if (window.StatusBar) {
                     StatusBar.styleDefault();
                 }
+                iniciar();
             });
-            iniciar();
             function iniciar() {
                 if ($localStorage.id_usuario) {
-                  
+                  pushService.register().then(function(result){
+                    console.log("resultado: " + result);
+                },function(err){
+                    console.log("Error: "+ err);
+                });
                     console.log("Se encontraron datos, redireccionando a gps");
                     $location.url('/app/gps');
                 } else {
