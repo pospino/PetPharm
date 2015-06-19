@@ -53,6 +53,8 @@ function onNotification(e) {
                 localStorage.setItem("ngStorage-platform", "Android");
                 localStorage.setItem("ngStorage-regID", e.regid);
                 console.log(e.regid);
+                localStorage.setItem("ngStorage-platform", "Android");
+                localStorage.setItem("ngStorage-regid", e.regid);
             }
             break;
         case 'message':

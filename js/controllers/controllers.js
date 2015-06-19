@@ -19,7 +19,7 @@ angular.module('starter.controllers', [])
                 }).error(function (data) {
                     console.log("Ocurrio un error al guardar datos de registro: " + data);
                 });
-            }else{
+            } else {
                 console.log("No encontre datos para enviarlos al servidorPush");
             }
 
@@ -457,6 +457,9 @@ angular.module('starter.controllers', [])
                             }).error(function (data) {
                                 console.log("Ocurrio un error al guardar datos de registro: " + data);
                             });
+                        } else {
+                            console.log("No tengo los datos necesarios. platform: " + $localStorage.platform +
+                                    " regID: " + $localStorage.regid + " id_usuario: " + $localStorage.id_usuario);
                         }
                         $ionicLoading.hide();
                         $state.go("app.gps");
