@@ -1,11 +1,11 @@
 angular.module('starter.controllers', [])
-        .controller('AppCtrl', function ($scope, $localStorage, $location, pushService) {
+        .controller('AppCtrl', function ($scope, $localStorage, $location) {
 
             $scope.logOut = function () {
                 $localStorage.$reset();
                 $location.url('/login');
             };
-           
+
 
 
         })
@@ -401,8 +401,7 @@ angular.module('starter.controllers', [])
 
         })
 
-        .controller('LoginCtrl', function ($scope, $state, $localStorage, AuthService,
-                $ionicLoading) {
+        .controller('LoginCtrl', function ($scope, $state, $localStorage, AuthService, $ionicLoading) {
             console.log("LLego al login");
             if ($localStorage.username) {
                 $state.go("app.gps");
