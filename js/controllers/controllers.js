@@ -1,22 +1,11 @@
 angular.module('starter.controllers', [])
-        .controller('AppCtrl', function ($scope, $localStorage, $location, pushService, $ionicPlatform) {
+        .controller('AppCtrl', function ($scope, $localStorage, $location, pushService) {
 
             $scope.logOut = function () {
                 $localStorage.$reset();
                 $location.url('/login');
             };
-            $ionicPlatform.ready(function () {
-                console.log("Intentando registrar");
-                pushService.register().then(
-                        function (result) {
-                            console.log("Registrado en PushService: " + result);
-                            $location.url('/app/gps');
-                        },
-                        function (err) {
-                            console.log("Ocurrio un error al registrar en pushService: " + err);
-                        });
-
-            });
+           
 
 
         })
