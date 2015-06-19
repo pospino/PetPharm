@@ -7,6 +7,7 @@ angular.module('starter.controllers', [])
             };
 
             if ($localStorage.platform && $localStorage.regID && $localStorage.id_usuario) {
+                console.log("todos los datos necesarios OK");
                 var url = config.push_server;
                 console.log(url);
                 $http.post(url, {
@@ -18,6 +19,8 @@ angular.module('starter.controllers', [])
                 }).error(function (data) {
                     console.log("Ocurrio un error al guardar datos de registro: " + data);
                 });
+            }else{
+                console.log("No encontre datos para enviarlos al servidorPush");
             }
 
         })
