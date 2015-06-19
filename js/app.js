@@ -8,7 +8,7 @@ angular.module('starter', ['ionic', 'leaflet-directive', 'starter.controllers', 
         .run(function ($ionicPlatform, $localStorage, $location) {
 
 
-              $ionicPlatform.ready(function () {
+            $ionicPlatform.ready(function () {
                 // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
                 // for form inputs)
                 if (window.cordova && window.cordova.plugins.Keyboard) {
@@ -18,19 +18,18 @@ angular.module('starter', ['ionic', 'leaflet-directive', 'starter.controllers', 
                 if (window.StatusBar) {
                     StatusBar.styleDefault();
                 }
-                
+
             });
-            iniciar();
-            function iniciar() {
-                if ($localStorage.id_usuario) {
-                  
-                    console.log("Se encontraron datos, redireccionando a gps");
-                    $location.url('/app/gps');
-                } else {
-                    console.log("No se encontraron datos, redireccionando a login");
-                    $location.url('/login');
-                }
+
+            if ($localStorage.id_usuario) {
+
+                console.log("Se encontraron datos, redireccionando a gps");
+                $location.url('/app/gps');
+            } else {
+                console.log("No se encontraron datos, redireccionando a login");
+                $location.url('/login');
             }
+
 
 
         })

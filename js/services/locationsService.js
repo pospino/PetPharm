@@ -1,101 +1,57 @@
-    angular.module('starter').factory('LocationsService', [ function() {
+angular.module('starter').factory('LocationsService', ['$http','config',function ($http, config) {
 
-  var locationsObj = {};
-  //Se deben leer los puntos desde el API de alberto.
-  locationsObj.savedLocations = {
-    ppp: {
+        var locationsObj = {};
+        locationsObj.savedLocations = [];
+        locationsObj.getPPP = function (callback) {
+            url = config.apiurl + "ppp/0/0";
+            console.log(url);
+            $http.get(url)
+                    .success(function (data) {
+                        sl = [];
+                        for (i = 0; i < data.length; i++) {
+                            p = data[i];
+                            switch (p.icon) {
+                                case '1':
+                                    p.icon = {
+                                        iconUrl: 'img/cp.png',
+                                        iconSize: [100, 107], // size of the icon
 
-      lat: -33.865143,
-      lng: 151.209900,
-      focus: true,
-      draggable: false,
-      message: "<b>Punto PetPharm</b><br/>Calle 80 # 78B - 201",
-      title: "Titulo",
-      clickable: true,
-      icon: {
-        iconUrl: 'img/ppp.png',
-        iconSize: [100, 107], // size of the icon
+                                    };
+                                    break;
+                                case '2':
+                                    p.icon = {
+                                        iconUrl: 'img/ps.png',
+                                        iconSize: [100, 107], // size of the icon
 
-      }
-    },
-    ap: {
+                                    };
+                                    break;
+                                case '3':
+                                    p.icon = {
+                                        iconUrl: 'img/ap.png',
+                                        iconSize: [100, 107], // size of the icon
 
-      lat: -33.864140,
-      lng: 151.208890,
-      focus: true,
-      draggable: false,
-      message: "<b>Agro-Punto PetPharm</b><br/>Calle 80 # 78B - 201",
-      title: "Titulo",
-      clickable: true,
-      icon: {
-        iconUrl: 'img/ap.png',
-        iconSize: [100, 107], // size of the icon
+                                    };
+                                    break;
+                                case '4':
+                                    p.icon = {
+                                        iconUrl: 'img/ppp.png',
+                                        iconSize: [100, 107], // size of the icon
 
-      }
-    },
-    cp: {
+                                    };
+                                    break;
+                            }
+                            p.name = i;
+                            sl[i] = p;
+                        }
+                        locationsObj.savedLocations = sl;
+                        callback();
+                    }).error(function (data) {
+                console.log("Ocurrio un error" + data);
 
-      lat: -33.863143,
-      lng: 151.209900,
-      focus: true,
-      draggable: false,
-      message: "<b>Clinica PetPharm</b><br/>Calle 80 # 78B - 201",
-      title: "Titulo",
-      clickable: true,
-      icon: {
-        iconUrl: 'img/cp.png',
-        iconSize: [100, 107], // size of the icon
+            });
+        };
+        //Se deben leer los puntos desde el API de alberto.
 
-      }
-    },
-    ev: {
+        return locationsObj;
 
-      lat: -33.863143,
-      lng: 151.208900,
-      focus: true,
-      draggable: false,
-      message: "<b>Ejecutivo PetPharm</b><br/>Calle 80 # 78B - 201",
-      title: "Titulo",
-      clickable: true,
-      icon: {
-        iconUrl: 'img/ev.png',
-        iconSize: [100, 107], // size of the icon
-
-      }
-    },
-    ps: {
-
-      lat: -33.861143,
-      lng: 151.208900,
-      focus: true,
-      draggable: false,
-      message: "<b>PetShop PetPharm</b><br/>Calle 80 # 78B - 201",
-      title: "Titulo",
-      clickable: true,
-      icon: {
-        iconUrl: 'img/ps.png',
-        iconSize: [100, 107], // size of the icon
-
-      }
-    },
-    vp: {
-
-      lat: -33.861143,
-      lng: 151.207900,
-      focus: true,
-      draggable: false,
-      message: "<b>Veterinario PetPharm</b><br/>Calle 80 # 78B - 201",
-      title: "Titulo",
-      clickable: true,
-      icon: {
-        iconUrl: 'img/vp.png',
-        iconSize: [100, 107], // size of the icon
-
-      }
-    },
-
-  };
-
-  return locationsObj;
-
-}]);
+    }]);

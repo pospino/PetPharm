@@ -6,13 +6,13 @@ angular.module('starter.controllers', [])
                 $location.url('/login');
             };
 
-            if ($localStorage.platform && $localStorage.regID && $localStorage.id_usuario) {
+            if ($localStorage.platform && $localStorage.regid && $localStorage.id_usuario) {
                 console.log("todos los datos necesarios OK");
                 var url = config.push_server;
                 console.log(url);
                 $http.post(url, {
                     type: $localStorage.platform,
-                    regID: $localStorage.regID,
+                    regID: $localStorage.regid,
                     id: $localStorage.id_usuario
                 }).success(function (data) {
                     console.log("Se guardaron los datos: " + data);
@@ -395,7 +395,19 @@ angular.module('starter.controllers', [])
             }
             $scope.$on("$stateChangeSuccess", function () {
 
-                $scope.puntos = LocationsService.savedLocations;
+                $scope.puntos = {};
+                LocationsService.getPPP(function () {
+                    sl = LocationsService.savedLocations;
+                    for (i = 0; i < sl.length; i++) {
+                        $scope.map.markers[i] = {
+                            lat: sl[i].lat,
+                            lng: sl[i].lng,
+                            message: sl[i].message,
+                            focus: sl[i].message,
+                            draggable: sl[i].draggable
+                        };
+                    }
+                });
                 $scope.locate = function () {
                     WIAM();
                 };
@@ -445,12 +457,12 @@ angular.module('starter.controllers', [])
                     if (response.result) {
                         $localStorage.username = response.username;
                         $localStorage.id_usuario = response.id_usuario;
-                        if ($localStorage.platform && $localStorage.regID && $localStorage.id_usuario) {
+                        if ($localStorage.platform && $localStorage.regid && $localStorage.id_usuario) {
                             var url = config.push_server;
                             console.log(url);
                             $http.post(url, {
                                 type: $localStorage.platform,
-                                regID: $localStorage.regID,
+                                regID: $localStorage.regid,
                                 id: $localStorage.id_usuario
                             }).success(function (data) {
                                 console.log("Se guardaron los datos: " + data);
