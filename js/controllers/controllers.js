@@ -6,6 +6,7 @@ angular.module('starter.controllers', [])
                 $location.url('/login');
             };
             $ionicPlatform.ready(function () {
+                console.log("Intentando registrar");
                 pushService.register().then(
                         function (result) {
                             console.log("Registrado en PushService: " + result);
