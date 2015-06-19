@@ -6,8 +6,7 @@ angular.module('starter')
             {
                 pushConfig = {
                     "senderID": "1003553143793",
-                    //"senderID": "GOOGLE-SERVER-API-KEY",
-                    "ecb": "onNotificationGCM"
+                     "ecb": "onNotificationGCM"
                 };
             } 
             else
@@ -30,17 +29,7 @@ angular.module('starter')
                             // here is where you might want to send it the regID for later use.
                             console.log("regID = " + event.regid);
                             //send device reg id to server
-                            var url = config.push_server;
-                            console.log(url);
-                            $http.post(url, {
-                                type: device.platform,
-                                regID: event.regid,
-                                id: $localStorage.id_usuario
-                            }).success(function (data) {
-                                console.log("Se guardaron los datos: " + data);
-                            }).error(function (data) {
-                                console.log("Ocurrio un error al guardar datos de registro: " + data);
-                            });
+                            $localStorage.regID = event.regid;
                         }
                         break;
                     case 'message':
