@@ -50,22 +50,33 @@ function onNotification(e) {
             if (e.regid.length > 0) {
                 // Your GCM push server needs to know the regID before it can push to this device
                 // here is where you might want to send it the regID for later use.
-                
+                localStorage.setItem("platform", "Android");
+                localStorage.setItem("regID", e.regid);
                 console.log(e.regid);
             }
             break;
         case 'message':
             // if this flag is set, this notification happened while we were in the foreground.
             // you might want to play a sound to get the user's attention, throw up a dialog, etc.
-            if (e.foreground) {
-                // on Android soundname is outside the payload.
-                // On Amazon FireOS all custom attributes are contained within payload
-                var soundfile = e.soundname || e.payload.sound;
-                // if the notification contains a soundname, play it.
-                // playing a sound also requires the org.apache.cordova.media plugin
-                var my_media = new Media("/android_asset/www/" + soundfile);
+            if (event.foreground) {
+                console.log('INLINE NOTIFICATION');
+                var my_media = new Media("/android_asset/www/" + event.soundname);
                 my_media.play();
+            } else {
+                if (event.coldstart) {
+                    console.log('COLDSTART NOTIFICATION');
+                } else {
+                    console.log('BACKGROUND NOTIFICATION');
+                }
             }
+
+            navigator.notification.alert(event.payload.message, function () {
+            }, event.payload.title);
+            console.log('MESSAGE -> MSG: ' + event.payload.message);
+            //Only works for GCM
+            console.log('MESSAGE -> MSGCNT: ' + event.payload.msgcnt);
+            //Only works on Amazon Fire OS
+            console.log('MESSAGE -> TIME: ' + event.payload.timeStamp);
             break;
         case 'error':
             break;

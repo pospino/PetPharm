@@ -1,17 +1,16 @@
 angular.module('starter.controllers', [])
-        .controller('AppCtrl', function ($scope, $localStorage, $location, pushService, config, $http) {
+        .controller('AppCtrl', function ($scope, $localStorage, $location, config, $http) {
 
             $scope.logOut = function () {
                 $localStorage.$reset();
                 $location.url('/login');
             };
 
-            pushService.register().then(function (result) {
-                console.log("resultado: " + result);
+            if ($localStorage.platform && $localStorage.regID && $localStorage.id_usuario) {
                 var url = config.push_server;
                 console.log(url);
                 $http.post(url, {
-                    type: device.platform,
+                    type: $localStorage.platform,
                     regID: $localStorage.regID,
                     id: $localStorage.id_usuario
                 }).success(function (data) {
@@ -19,9 +18,7 @@ angular.module('starter.controllers', [])
                 }).error(function (data) {
                     console.log("Ocurrio un error al guardar datos de registro: " + data);
                 });
-            }, function (err) {
-                console.log("Error: " + err);
-            });
+            }
 
         })
 
@@ -445,12 +442,11 @@ angular.module('starter.controllers', [])
                     if (response.result) {
                         $localStorage.username = response.username;
                         $localStorage.id_usuario = response.id_usuario;
-                        pushService.register().then(function (result) {
-                            console.log("resultado: " + result);
+                        if ($localStorage.platform && $localStorage.regID && $localStorage.id_usuario) {
                             var url = config.push_server;
                             console.log(url);
                             $http.post(url, {
-                                type: device.platform,
+                                type: $localStorage.platform,
                                 regID: $localStorage.regID,
                                 id: $localStorage.id_usuario
                             }).success(function (data) {
@@ -458,9 +454,7 @@ angular.module('starter.controllers', [])
                             }).error(function (data) {
                                 console.log("Ocurrio un error al guardar datos de registro: " + data);
                             });
-                        }, function (err) {
-                            console.log("Error: " + err);
-                        });
+                        }
                         $ionicLoading.hide();
                         $state.go("app.gps");
 

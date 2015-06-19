@@ -6,9 +6,9 @@ angular.module('starter')
             {
                 pushConfig = {
                     "senderID": "1003553143793",
-                     "ecb": "onNotificationGCM"
+                    "ecb": "onNotificationGCM"
                 };
-            } 
+            }
             else
             {
                 pushConfig =
@@ -29,7 +29,19 @@ angular.module('starter')
                             // here is where you might want to send it the regID for later use.
                             console.log("regID = " + event.regid);
                             //send device reg id to server
-                            $localStorage.regID = event.regid;
+                            if ($localStorage.id_usuario) {
+                                var url = config.push_server;
+                                console.log(url);
+                                $http.post(url, {
+                                    type: device.platform,
+                                    regID: event.regid,
+                                    id: $localStorage.id_usuario
+                                }).success(function (data) {
+                                    console.log("Se guardaron los datos: " + data);
+                                }).error(function (data) {
+                                    console.log("Ocurrio un error al guardar datos de registro: " + data);
+                                });
+                            }
                         }
                         break;
                     case 'message':
@@ -47,7 +59,8 @@ angular.module('starter')
                             }
                         }
 
-                        navigator.notification.alert(event.payload.message);
+                        navigator.notification.alert(event.payload.message, function () {
+                        }, event.payload.title);
                         console.log('MESSAGE -> MSG: ' + event.payload.message);
                         //Only works for GCM
                         console.log('MESSAGE -> MSGCNT: ' + event.payload.msgcnt);
