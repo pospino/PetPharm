@@ -70,7 +70,7 @@ angular.module('starter.controllers', [])
                     .success(function (data) {
                         $scope.mascota = data[0];
                         if ($scope.mascota.imagen !== null) {
-                            $scope.mascota.imagen = config.ruta_mascota + $scope.mascota.imagen;
+                            $scope.mascota.imagen = config.ruta_mascota + $stateParams.mascotaId +"."+ $scope.mascota.ext;
                         }
                         $ionicLoading.hide();
                     });
