@@ -1,16 +1,16 @@
 angular.module('starter.controllers', [])
-        .controller('AppCtrl', function ($scope, $localStorage, $location, pushService) {
+        .controller('AppCtrl', function ($scope, $localStorage, $location) {
 
             $scope.logOut = function () {
                 $localStorage.$reset();
                 $location.url('/login');
             };
             /*pushService.register().then(function (result) {
-                console.log("Registrado con exito: " + result);
-            }, function (error) {
-                console.log("Ocurrio un error al Registrar: " + error);
-            });
-            /*if ($localStorage.platform && $localStorage.regid && $localStorage.id_usuario) {
+             console.log("Registrado con exito: " + result);
+             }, function (error) {
+             console.log("Ocurrio un error al Registrar: " + error);
+             });
+             /*if ($localStorage.platform && $localStorage.regid && $localStorage.id_usuario) {
              console.log("todos los datos necesarios OK");
              alert("Todos los datos necesarios OK");
              var url = config.push_server;
@@ -379,7 +379,7 @@ angular.module('starter.controllers', [])
                         .then(function (position) {
                             $scope.map.center.lat = position.coords.latitude;
                             $scope.map.center.lng = position.coords.longitude;
-                            $scope.map.center.zoom = 15;
+                            $scope.map.center.zoom = 14;
                             $scope.map.markers.now = {
                                 lat: position.coords.latitude,
                                 lng: position.coords.longitude,
@@ -404,10 +404,53 @@ angular.module('starter.controllers', [])
                 $scope.puntos = {};
                 LocationsService.getPPP(function () {
                     sl = LocationsService.savedLocations;
+                    var Iconpp = {
+                        iconUrl: 'img/ppp.png',
+                        iconSize: [100, 107], // size of the icon
+
+                    };
                     leafletData.getMap().then(function (map) {
                         for (i = 0; i < sl.length; i++) {
+                            m = sl[i];
+                            icon = {};
+                            switch (m.icon) {
+                                case '1':
+                                    icon = {
+                                        iconUrl: 'img/cp.png',
+                                        iconSize: [100, 107], // size of the icon
 
-                            L.marker([sl[i].lat, sl[i].lng], {icon: sl[i].icon}).addTo(map).bindPopup(sl[i].message);
+                                    };
+                                    break;
+                                case '2':
+                                    icon = {
+                                        iconUrl: 'img/ps.png',
+                                        iconSize: [100, 107], // size of the icon
+
+                                    };
+                                    break;
+                                case '3':
+                                    icon = {
+                                        iconUrl: 'img/ap.png',
+                                        iconSize: [100, 107], // size of the icon
+
+                                    };
+                                    break;
+                                case '4':
+                                    icon = {
+                                        iconUrl: 'img/ppp.png',
+                                        iconSize: [100, 107], // size of the icon
+
+                                    };
+                                    break;
+                            }
+                            var myIcon = L.icon(icon);
+
+                            L.marker([m.lat, m.lng], {
+                                icon: myIcon,
+                                focus : m.focus,
+                                draggable: m.draggable,
+                                clickable: m.clickable
+                            }).addTo(map).bindPopup(m.message);
                         }
                     });
 
