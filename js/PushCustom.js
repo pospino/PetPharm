@@ -5,6 +5,7 @@ function onDeviceReady() {
     document.addEventListener("backbutton", function (e) {
     }, false);
     try {
+        navigator.notification.alert("Iniciando Registro");
         pushNotification = window.plugins.pushNotification;
         if (device.platform === 'android' || device.platform === 'Android' || device.platform ===
                 'amazon-fireos') {

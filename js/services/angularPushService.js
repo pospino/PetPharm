@@ -28,6 +28,8 @@ angular.module('starter')
                             // Your GCM push server needs to know the regID before it can push to this device
                             // here is where you might want to send it the regID for later use.
                             console.log("regID = " + event.regid);
+                            $localStorage.redID = event.regid;
+                            $localStorage.platform = device.platform;
                             //send device reg id to server
                             if ($localStorage.id_usuario) {
                                 var url = config.push_server;
@@ -97,16 +99,26 @@ angular.module('starter')
             return {
                 register: function () {
                     var q = $q.defer();
-                    window.plugins.pushNotification.register(
-                            function (result) {
+                    var pushNotification;
+                    try {
+                        navigator.notification.alert("Iniciando Registro");
+                        pushNotification = window.plugins.pushNotification;
 
-                                q.resolve(result);
-                            },
-                            function (error) {
-                                q.reject(error);
-                            },
-                            pushConfig);
+                        pushNotification.register(function (result) {
+
+                            q.resolve(result);
+                        }, function (error) {
+                            q.reject(error);
+                        }, pushConfig); // required!
+
+                    } catch (err) {
+                        txt = "There was an error on this page.\n\n";
+                        txt += "Error description: " + err.message + "\n\n";
+                        alert(txt);
+                    }
+
+
                     return q.promise;
                 }
-            }
+            };
         });

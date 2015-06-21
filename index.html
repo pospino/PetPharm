@@ -27,16 +27,19 @@
         <script src="js/services/AuthService.js"></script>
         <script src="js/services/dbService.js"></script>
         <script src="js/services/camaraService.js"></script>
-        <!--script src="js/services/angularPushService.js"></script-->
-        
+        <script src="js/services/angularPushService.js"></script>
+
         <script src="js/directives/igTruncate.js"></script>
         <script src="js/config.js"></script>
-        <script src="js/PushCustom.js"></script>        
-
-
+        <!--script src="js/PushCustom.js"></script-->     
+        <script>
+            document.addEventListener('deviceready', function onDeviceReady() {
+                angular.bootstrap(document, ['starter']);
+            }, false);
+        </script>
     </head>
 
-    <body ng-app="starter" class="platform-ios platform-cordova platform-webview">
+    <body  class="platform-ios platform-cordova platform-webview">
     <ion-nav-view></ion-nav-view>
 </body>
 </html>

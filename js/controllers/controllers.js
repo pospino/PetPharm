@@ -1,29 +1,33 @@
 angular.module('starter.controllers', [])
-        .controller('AppCtrl', function ($scope, $localStorage, $location, config, $http) {
+        .controller('AppCtrl', function ($scope, $localStorage, $location, pushService) {
 
             $scope.logOut = function () {
                 $localStorage.$reset();
                 $location.url('/login');
             };
-
-            if ($localStorage.platform && $localStorage.regid && $localStorage.id_usuario) {
-                console.log("todos los datos necesarios OK");
-                alert("Todos los datos necesarios OK");
-                var url = config.push_server;
-                console.log(url);
-                $http.post(url, {
-                    type: $localStorage.platform,
-                    regID: $localStorage.regid,
-                    id: $localStorage.id_usuario
-                }).success(function (data) {
-                    console.log("Se guardaron los datos: " + data);
-                }).error(function (data) {
-                    console.log("Ocurrio un error al guardar datos de registro: " + data);
-                });
-            } else {
-                alert("platform: " + $localStorage.platform + " RegID: " + $localStorage.regid + " Id_Usuario: " + $localStorage.id_usuario);
-                console.log("No encontre datos para enviarlos al servidorPush");
-            }
+            pushService.register().then(function (result) {
+                console.log("Registrado con exito: " + result);
+            }, function (error) {
+                console.log("Ocurrio un error al Registrar: " + error);
+            });
+            /*if ($localStorage.platform && $localStorage.regid && $localStorage.id_usuario) {
+             console.log("todos los datos necesarios OK");
+             alert("Todos los datos necesarios OK");
+             var url = config.push_server;
+             console.log(url);
+             $http.post(url, {
+             type: $localStorage.platform,
+             regID: $localStorage.regid,
+             id: $localStorage.id_usuario
+             }).success(function (data) {
+             console.log("Se guardaron los datos: " + data);
+             }).error(function (data) {
+             console.log("Ocurrio un error al guardar datos de registro: " + data);
+             });
+             } else {
+             alert("platform: " + $localStorage.platform + " RegID: " + $localStorage.regid + " Id_Usuario: " + $localStorage.id_usuario);
+             console.log("No encontre datos para enviarlos al servidorPush");
+             }*/
 
         })
 
@@ -428,7 +432,7 @@ angular.module('starter.controllers', [])
 
         })
 
-        .controller('LoginCtrl', function ($scope, $state, $localStorage, AuthService, $ionicLoading) {
+        .controller('LoginCtrl', function ($scope, $state, $localStorage, AuthService, $ionicLoading, pushService) {
             console.log("LLego al login");
             if ($localStorage.username) {
                 $state.go("app.gps");
@@ -457,23 +461,27 @@ angular.module('starter.controllers', [])
                     if (response.result) {
                         $localStorage.username = response.username;
                         $localStorage.id_usuario = response.id_usuario;
-
-                        if ($localStorage.platform && $localStorage.regid && $localStorage.id_usuario) {
-                            var url = config.push_server;
-                            console.log(url);
-                            $http.post(url, {
-                                type: $localStorage.platform,
-                                regID: $localStorage.regid,
-                                id: $localStorage.id_usuario
-                            }).success(function (data) {
-                                console.log("Se guardaron los datos: " + data);
-                            }).error(function (data) {
-                                console.log("Ocurrio un error al guardar datos de registro: " + data);
-                            });
-                        } else {
-                            console.log("No tengo los datos necesarios. platform: " + $localStorage.platform +
-                                    " regID: " + $localStorage.regid + " id_usuario: " + $localStorage.id_usuario);
-                        }
+                        pushService.register().then(function (result) {
+                            console.log("Registrado con exito: " + result);
+                        }, function (error) {
+                            console.log("Ocurrio un error al Registrar: " + error);
+                        });
+                        /*if ($localStorage.platform && $localStorage.regid && $localStorage.id_usuario) {
+                         var url = config.push_server;
+                         console.log(url);
+                         $http.post(url, {
+                         type: $localStorage.platform,
+                         regID: $localStorage.regid,
+                         id: $localStorage.id_usuario
+                         }).success(function (data) {
+                         console.log("Se guardaron los datos: " + data);
+                         }).error(function (data) {
+                         console.log("Ocurrio un error al guardar datos de registro: " + data);
+                         });
+                         } else {
+                         console.log("No tengo los datos necesarios. platform: " + $localStorage.platform +
+                         " regID: " + $localStorage.regid + " id_usuario: " + $localStorage.id_usuario);
+                         }*/
 
                         $ionicLoading.hide();
                         $state.go("app.gps");
