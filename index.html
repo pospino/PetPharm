@@ -32,14 +32,10 @@
         <script src="js/directives/igTruncate.js"></script>
         <script src="js/config.js"></script>
         <!--script src="js/PushCustom.js"></script-->     
-        <script>
-            document.addEventListener('deviceready', function onDeviceReady() {
-                angular.bootstrap(document, ['starter']);
-            }, false);
-        </script>
+       
     </head>
 
-    <body  class="platform-ios platform-cordova platform-webview">
+    <body ng-app="starter" class="platform-ios platform-cordova platform-webview">
     <ion-nav-view></ion-nav-view>
 </body>
 </html>
