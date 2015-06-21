@@ -5,7 +5,7 @@ angular.module('starter.controllers', [])
                 $localStorage.$reset();
                 $location.url('/login');
             };
-            pushService.register().then(function (result) {
+            /*pushService.register().then(function (result) {
                 console.log("Registrado con exito: " + result);
             }, function (error) {
                 console.log("Ocurrio un error al Registrar: " + error);
