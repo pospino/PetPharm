@@ -22,7 +22,6 @@ angular.module('starter', ['ionic', 'leaflet-directive', 'starter.controllers', 
             });
 
             if ($localStorage.id_usuario) {
-
                 console.log("Se encontraron datos, redireccionando a gps");
                 $location.url('/app/gps');
             } else {

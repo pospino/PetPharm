@@ -5,29 +5,7 @@ angular.module('starter.controllers', [])
                 $localStorage.$reset();
                 $location.url('/login');
             };
-            /*pushService.register().then(function (result) {
-             console.log("Registrado con exito: " + result);
-             }, function (error) {
-             console.log("Ocurrio un error al Registrar: " + error);
-             });
-             /*if ($localStorage.platform && $localStorage.regid && $localStorage.id_usuario) {
-             console.log("todos los datos necesarios OK");
-             alert("Todos los datos necesarios OK");
-             var url = config.push_server;
-             console.log(url);
-             $http.post(url, {
-             type: $localStorage.platform,
-             regID: $localStorage.regid,
-             id: $localStorage.id_usuario
-             }).success(function (data) {
-             console.log("Se guardaron los datos: " + data);
-             }).error(function (data) {
-             console.log("Ocurrio un error al guardar datos de registro: " + data);
-             });
-             } else {
-             alert("platform: " + $localStorage.platform + " RegID: " + $localStorage.regid + " Id_Usuario: " + $localStorage.id_usuario);
-             console.log("No encontre datos para enviarlos al servidorPush");
-             }*/
+          
 
         })
 
