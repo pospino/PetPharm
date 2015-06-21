@@ -8,6 +8,7 @@ angular.module('starter.controllers', [])
 
             if ($localStorage.platform && $localStorage.regid && $localStorage.id_usuario) {
                 console.log("todos los datos necesarios OK");
+                alert("Todos los datos necesarios OK");
                 var url = config.push_server;
                 console.log(url);
                 $http.post(url, {
@@ -20,6 +21,7 @@ angular.module('starter.controllers', [])
                     console.log("Ocurrio un error al guardar datos de registro: " + data);
                 });
             } else {
+                alert("platform: " + $localStorage.platform + " RegID: " + $localStorage.regid + " Id_Usuario: " + $localStorage.id_usuario);
                 console.log("No encontre datos para enviarlos al servidorPush");
             }
 
@@ -357,7 +359,7 @@ angular.module('starter.controllers', [])
             }
         })
 
-        .controller('PuntosCtrl', function ($scope, $cordovaGeolocation, $ionicLoading, LocationsService) {
+        .controller('PuntosCtrl', function ($scope, leafletData, $cordovaGeolocation, $ionicLoading, LocationsService) {
 
             $scope.lista = [];
             function WIAM() {
@@ -398,15 +400,13 @@ angular.module('starter.controllers', [])
                 $scope.puntos = {};
                 LocationsService.getPPP(function () {
                     sl = LocationsService.savedLocations;
-                    for (i = 0; i < sl.length; i++) {
-                        $scope.map.markers[i] = {
-                            lat: sl[i].lat,
-                            lng: sl[i].lng,
-                            message: sl[i].message,
-                            focus: sl[i].message,
-                            draggable: sl[i].draggable
-                        };
-                    }
+                    leafletData.getMap().then(function (map) {
+                        for (i = 0; i < sl.length; i++) {
+
+                            L.marker([sl[i].lat, sl[i].lng], {icon: sl[i].icon}).addTo(map).bindPopup(sl[i].message);
+                        }
+                    });
+
                 });
                 $scope.locate = function () {
                     WIAM();
@@ -457,6 +457,7 @@ angular.module('starter.controllers', [])
                     if (response.result) {
                         $localStorage.username = response.username;
                         $localStorage.id_usuario = response.id_usuario;
+
                         if ($localStorage.platform && $localStorage.regid && $localStorage.id_usuario) {
                             var url = config.push_server;
                             console.log(url);
@@ -473,6 +474,7 @@ angular.module('starter.controllers', [])
                             console.log("No tengo los datos necesarios. platform: " + $localStorage.platform +
                                     " regID: " + $localStorage.regid + " id_usuario: " + $localStorage.id_usuario);
                         }
+
                         $ionicLoading.hide();
                         $state.go("app.gps");
 
