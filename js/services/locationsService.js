@@ -4,7 +4,7 @@ angular.module('starter').factory('LocationsService', ['$http','config',function
         locationsObj.savedLocations = [];
         locationsObj.getPPP = function (callback) {
             url = config.apiurl + "ppp/0/0";
-            console.log(url);
+//            console.log(url);
             $http.get(url)
                     .success(function (data) {
                         sl = [];
@@ -15,7 +15,7 @@ angular.module('starter').factory('LocationsService', ['$http','config',function
                         locationsObj.savedLocations = sl;
                         callback();
                     }).error(function (data) {
-                console.log("Ocurrio un error" + data);
+//                console.log("Ocurrio un error" + data);
 
             });
         };

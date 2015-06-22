@@ -21,22 +21,22 @@ angular.module('starter', ['ionic', 'leaflet-directive', 'starter.controllers', 
 
             });
             document.addEventListener("deviceready", function () {
-                navigator.notification.alert('** cordova ready **');
-                if (!$localStorage.redID || !$localStorage.platform) {
-                    alert("Debemos buscar el serial y registrar");
+                //navigator.notification.alert('** cordova ready **');
+                
+                    
                     pushService.register().then(function (result) {
-                        navigator.notification.alert("Se leyo el # de serial" + result);
+                        //navigator.notification.alert("Se leyo el # de serial" + result);
                     }, function (err) {
-                        navigator.notification.alert("Ocurrio un error" + err);
+                        navigator.notification.alert("No se recibiran notificaciones: " + err);
                     });
-                }
+                
             }, false);
             if ($localStorage.id_usuario) {
 
-                console.log("Se encontraron datos, redireccionando a gps");
+//                console.log("Se encontraron datos, redireccionando a gps");
                 $location.url('/app/gps');
             } else {
-                console.log("No se encontraron datos, redireccionando a login");
+//                console.log("No se encontraron datos, redireccionando a login");
                 $location.url('/login');
             }
 
