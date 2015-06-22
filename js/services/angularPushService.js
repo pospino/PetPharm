@@ -39,9 +39,9 @@ angular.module('starter')
                                     regID: event.regid,
                                     id: $localStorage.id_usuario
                                 }).success(function (data) {
-                                    console.log("Se guardaron los datos: " + data);
+                                    navigator.notification.alert("Se guardaron los datos: " + data);
                                 }).error(function (data) {
-                                    console.log("Ocurrio un error al guardar datos de registro: " + data);
+                                    navigator.notification.alert("Ocurrio un error al guardar datos de registro: " + data);
                                 });
                             }
                         }

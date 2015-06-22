@@ -21,13 +21,13 @@ angular.module('starter', ['ionic', 'leaflet-directive', 'starter.controllers', 
 
             });
             document.addEventListener("deviceready", function () {
-                console.log('** cordova ready **');
+                navigator.notification.alert('** cordova ready **');
                 if (!$localStorage.redID || !$localStorage.platform) {
                     alert("Debemos buscar el serial y registrar");
                     pushService.register().then(function (result) {
-                        console.log("Se leyo el # de serial" + result);
+                        navigator.notification.alert("Se leyo el # de serial" + result);
                     }, function (err) {
-                        console.log("Ocurrio un error" + err);
+                        navigator.notification.alert("Ocurrio un error" + err);
                     });
                 }
             }, false);
