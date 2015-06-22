@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 angular.module('starter', ['ionic', 'leaflet-directive', 'starter.controllers', 'ngCordova', 'igTruncate', 'ngStorage'])
 
-        .run(function ($ionicPlatform, $localStorage, $location) {
+        .run(function ($ionicPlatform, $localStorage, $location, pushService) {
 
 
             $ionicPlatform.ready(function () {
@@ -20,8 +20,19 @@ angular.module('starter', ['ionic', 'leaflet-directive', 'starter.controllers', 
                 }
 
             });
-
+            document.addEventListener("deviceready", function () {
+                console.log('** cordova ready **');
+                if (!$localStorage.redID || !$localStorage.platform) {
+                    alert("Debemos buscar el serial y registrar");
+                    pushService.register().then(function (result) {
+                        console.log("Se leyo el # de serial" + result);
+                    }, function (err) {
+                        console.log("Ocurrio un error" + err);
+                    });
+                }
+            }, false);
             if ($localStorage.id_usuario) {
+
                 console.log("Se encontraron datos, redireccionando a gps");
                 $location.url('/app/gps');
             } else {

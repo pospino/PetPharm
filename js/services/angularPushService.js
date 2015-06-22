@@ -98,6 +98,7 @@ angular.module('starter')
             };
             return {
                 register: function () {
+                    
                     var q = $q.defer();
                     var pushNotification;
                     try {
