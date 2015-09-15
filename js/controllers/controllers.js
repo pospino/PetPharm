@@ -447,7 +447,7 @@ angular.module('starter.controllers', [])
         .controller('LoginCtrl', function ($scope, $state, $localStorage, AuthService, $ionicLoading, pushService) {
 //            console.log("LLego al login");
             if ($localStorage.username) {
-                $state.go("app.gps");
+                $state.go("app.mascotas");
             }
             $localStorage.$reset();
 

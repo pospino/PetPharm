@@ -34,7 +34,7 @@ angular.module('starter', ['ionic', 'leaflet-directive', 'starter.controllers', 
             if ($localStorage.id_usuario) {
 
 //                console.log("Se encontraron datos, redireccionando a gps");
-                $location.url('/app/gps');
+                $location.url('/app/mascotas');
             } else {
 //                console.log("No se encontraron datos, redireccionando a login");
                 $location.url('/login');
@@ -49,7 +49,7 @@ angular.module('starter', ['ionic', 'leaflet-directive', 'starter.controllers', 
                     .state('login', {
                         url: "/login",
                         templateUrl: "templates/login.html",
-                        controller: 'LoginCtrl',
+                        controller: 'LoginCtrl'
                     })
 
                     .state('app', {
@@ -125,5 +125,5 @@ angular.module('starter', ['ionic', 'leaflet-directive', 'starter.controllers', 
                         }
                     })
 
-            $urlRouterProvider.otherwise('/app/gps');
+            $urlRouterProvider.otherwise('/app/mascotas');
         });
