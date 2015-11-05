@@ -51,6 +51,11 @@ angular.module('starter', ['ionic', 'leaflet-directive', 'starter.controllers', 
                         templateUrl: "templates/login.html",
                         controller: 'LoginCtrl'
                     })
+                    .state('eula', {
+                        url: "/eula",
+                        templateUrl: "templates/eula.html",
+                        controller: 'EULACtrl'
+                    })
 
                     .state('app', {
                         url: "/app",

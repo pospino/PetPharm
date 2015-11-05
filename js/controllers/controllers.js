@@ -473,11 +473,16 @@ angular.module('starter.controllers', [])
                     if (response.result) {
                         $localStorage.username = response.username;
                         $localStorage.id_usuario = response.id_usuario;
+                        $localStorage.eula = response.eula;
+                        
+                        
                         pushService.register().then(function (result) {
 //                            console.log("Registrado con exito: " + result);
                         }, function (error) {
 //                            console.log("Ocurrio un error al Registrar: " + error);
                         });
+                        
+                       
                         /*if ($localStorage.platform && $localStorage.regid && $localStorage.id_usuario) {
                          var url = config.push_server;
                          console.log(url);
@@ -496,7 +501,8 @@ angular.module('starter.controllers', [])
                          }*/
 
                         $ionicLoading.hide();
-                        $state.go("app.gps");
+                        
+                        $state.go("app.mascotas");
 
                     } else {
                         $ionicLoading.hide();
@@ -506,6 +512,10 @@ angular.module('starter.controllers', [])
                 });
 
             };
+
+
+        })
+        .controller('EULACtrl', function ($scope, $state, $localStorage,  $ionicLoading) {
 
 
         });
