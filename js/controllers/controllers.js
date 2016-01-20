@@ -8,7 +8,14 @@ angular.module('starter.controllers', [])
 
 
         })
+        
+        .controller('EULACtrl', function ($scope, $localStorage, $location) {
 
+            
+
+
+        })
+        
         .controller('MascotasCtrl', function ($scope, $http, config, $localStorage, $ionicLoading) {
 
             $scope.lista = [];
@@ -473,6 +480,9 @@ angular.module('starter.controllers', [])
                     if (response.result) {
                         $localStorage.username = response.username;
                         $localStorage.id_usuario = response.id_usuario;
+                        if(response.eula != "1"){
+                            $state.go("app.eula");
+                        }
                         pushService.register().then(function (result) {
 //                            console.log("Registrado con exito: " + result);
                         }, function (error) {
@@ -481,7 +491,7 @@ angular.module('starter.controllers', [])
                         
 
                         $ionicLoading.hide();
-                        $state.go("app.gps");
+                        $state.go("app.mascotas");
 
                     } else {
                         $ionicLoading.hide();

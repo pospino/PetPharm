@@ -68,6 +68,15 @@ angular.module('starter', ['ionic', 'leaflet-directive', 'starter.controllers', 
                             }
                         }
                     })
+                    .state('app.eula', {
+                        url: "/eula",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "templates/eula.html",
+                                controller: "EULACtrl"
+                            }
+                        }
+                    })
                     .state('app.mascotas', {
                         url: "/mascotas",
                         views: {

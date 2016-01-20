@@ -11,8 +11,11 @@ angular.module('starter')
                                     if (!data.success) {
 
                                         if (!data.error) {
-                                            
-                                            callback({result: true, username: username, id_usuario: data[0]["id"]});
+                                            callback({result: true, 
+                                                username: username, 
+                                                id_usuario: data[0]["id"],
+                                                eula: data[0]["eula"]
+                                            });
                                         } else {
                                             callback({result: false, data: "Ocurrio un error: " + data.error.status});
                                         }
