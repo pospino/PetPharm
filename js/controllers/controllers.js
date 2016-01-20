@@ -8,14 +8,14 @@ angular.module('starter.controllers', [])
 
 
         })
-        
+
         .controller('EULACtrl', function ($scope, $localStorage, $location) {
 
-            
+
 
 
         })
-        
+
         .controller('MascotasCtrl', function ($scope, $http, config, $localStorage, $ionicLoading) {
 
             $scope.lista = [];
@@ -481,18 +481,24 @@ angular.module('starter.controllers', [])
                         $localStorage.username = response.username;
                         $localStorage.id_usuario = response.id_usuario;
                         console.log("El valor EULA es:" + response.eula);
-                        if(response.eula != "1"){
-                            $state.go("app.eula");
-                        }
-                        pushService.register().then(function (result) {
-//                            console.log("Registrado con exito: " + result);
-                        }, function (error) {
-//                            console.log("Ocurrio un error al Registrar: " + error);
-                        });
-                        
 
-                        $ionicLoading.hide();
-                        $state.go("app.mascotas");
+                        if (response.eula != "1") {
+
+                            $ionicLoading.hide();
+                            
+                            $state.go("app.eula");
+                        } else {
+                            
+                            pushService.register().then(function (result) {
+//                            console.log("Registrado con exito: " + result);
+                            }, function (error) {
+//                            console.log("Ocurrio un error al Registrar: " + error);
+                            });
+                            
+                            $ionicLoading.hide();
+
+                            $state.go("app.mascotas");
+                        }
 
                     } else {
                         $ionicLoading.hide();
