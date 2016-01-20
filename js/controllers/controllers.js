@@ -480,6 +480,7 @@ angular.module('starter.controllers', [])
                     if (response.result) {
                         $localStorage.username = response.username;
                         $localStorage.id_usuario = response.id_usuario;
+                        console.log("El valor EULA es:" + response.eula);
                         if(response.eula != "1"){
                             $state.go("app.eula");
                         }
