@@ -9,7 +9,32 @@ angular.module('starter.controllers', [])
 
         })
 
-        .controller('EULACtrl', function ($scope, $localStorage, $location) {
+        .controller('EULACtrl', function ($scope, $http, $localStorage, $location) {
+            $scope.doAccept = function (valor) {
+                if (valor == 0)
+                {
+                    $localStorage.$reset();
+                    $location.url('/login');
+
+                } else {
+                    url = config.apiurl + 'curdate/0/0';
+                    $http.get(url).success(function (data) {
+                        url = config.apiurl + 'dueno_mascota/' +
+                                $localStorage.id_usuario;
+                        $http.put
+                                (
+                                        url,
+                                        {
+                                            eula: 1,
+                                            eula_since: data.fecha
+                                        }
+                                )
+                                .success(function () {
+                                    $location.url('/mascotas');
+                                });
+                    });
+                }
+            };
 
 
 
@@ -485,16 +510,16 @@ angular.module('starter.controllers', [])
                         if (response.eula != "1") {
 
                             $ionicLoading.hide();
-                            
+
                             $state.go("app.eula");
                         } else {
-                            
+
                             pushService.register().then(function (result) {
 //                            console.log("Registrado con exito: " + result);
                             }, function (error) {
 //                            console.log("Ocurrio un error al Registrar: " + error);
                             });
-                            
+
                             $ionicLoading.hide();
 
                             $state.go("app.mascotas");

@@ -1,19 +1,15 @@
 <ion-view >
     <ion-header-bar>
-        <h1 class="title">Terminos y Condiciones</h1>
+        <h1 class="title">Términos y Condiciones</h1>
 
     </ion-header-bar>
     <ion-content>
-        <form ng-submit="doLogin()">
-            <div class="card" ng-if="ShowError">
-                <div class="item item-text-wrap">
-                    {{Error}}
-                </div>
-            </div>
+        <form>
+            
             <div class="list padding">
                 <div class="row">
-                    <div class="card padding" style="text-align:center">
-                        <h2>TÉRMINOS Y CONDICIONES</h2>
+                    <div class="card padding" style="text-align:justify">
+                        <h2 style="text-align: center">TÉRMINOS Y CONDICIONES</h2>
 
                         <p>El usuario acepta expresamente los Términos y Condiciones, siendo condición esencial para la utilización de la aplicación. En el evento en que NO se encuentre en desacuerdo con estos Términos y Condiciones, solicitamos abandonar la aplicación inmediatamente. Petpharm para modificar los presentes términos y condiciones, avisando a los usuarios de la aplicación mediante publicación en la página web www.petpharm.co o mediante la difusión de las modificación por algún medio electrónico, redes sociales, SMS y/o correo electrónico, lo cual se entenderá aceptado por el usuario si éste continua con el uso de la aplicación.</p>
 
@@ -47,6 +43,8 @@
 
                     </div>
                 </div>
+                <button onclick="doAccept(1)" class="button button-block button-balanced">Acepto</button>
+                <button onclick="doAccept(0)"class="button button-block button-assertive">No Acepto</button>
             </div>
 
         </form>
