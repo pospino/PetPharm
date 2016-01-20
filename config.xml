@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.petpharm.app" version="1.0.0" 
+<widget id="com.petpharm.app" version="1.0.1" 
         xmlns:gap = "http://phonegap.com/ns/1.0" 
         xmlns="http://www.w3.org/ns/widgets" 
         xmlns:cdv="http://cordova.apache.org/ns/1.0">
@@ -33,7 +33,7 @@
     <allow-intent href="geo:*" />
     
     <icon src="icon.png" />
-    <gap:splash src="petpharm.9..png" />
+    <gap:splash src="petpharm.9.png" />
     
     <platform name="android">
         <allow-intent href="market:*" />
