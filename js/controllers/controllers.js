@@ -447,7 +447,7 @@ angular.module('starter.controllers', [])
         .controller('LoginCtrl', function ($scope, $state, $localStorage, AuthService, $ionicLoading, pushService) {
 //            console.log("LLego al login");
             if ($localStorage.username) {
-                $state.go("app.gps");
+                $state.go("app.mascotas");
             }
             $localStorage.$reset();
 
@@ -473,36 +473,15 @@ angular.module('starter.controllers', [])
                     if (response.result) {
                         $localStorage.username = response.username;
                         $localStorage.id_usuario = response.id_usuario;
-                        $localStorage.eula = response.eula;
-                        
-                        
                         pushService.register().then(function (result) {
 //                            console.log("Registrado con exito: " + result);
                         }, function (error) {
 //                            console.log("Ocurrio un error al Registrar: " + error);
                         });
                         
-                       
-                        /*if ($localStorage.platform && $localStorage.regid && $localStorage.id_usuario) {
-                         var url = config.push_server;
-                         console.log(url);
-                         $http.post(url, {
-                         type: $localStorage.platform,
-                         regID: $localStorage.regid,
-                         id: $localStorage.id_usuario
-                         }).success(function (data) {
-                         console.log("Se guardaron los datos: " + data);
-                         }).error(function (data) {
-                         console.log("Ocurrio un error al guardar datos de registro: " + data);
-                         });
-                         } else {
-                         console.log("No tengo los datos necesarios. platform: " + $localStorage.platform +
-                         " regID: " + $localStorage.regid + " id_usuario: " + $localStorage.id_usuario);
-                         }*/
 
                         $ionicLoading.hide();
-                        
-                        $state.go("app.mascotas");
+                        $state.go("app.gps");
 
                     } else {
                         $ionicLoading.hide();
@@ -512,10 +491,6 @@ angular.module('starter.controllers', [])
                 });
 
             };
-
-
-        })
-        .controller('EULACtrl', function ($scope, $state, $localStorage,  $ionicLoading) {
 
 
         });
