@@ -36,17 +36,21 @@ angular.module('starter', ['ionic', 'leaflet-directive', 'starter.controllers', 
                 url = config.apiurl + "dueno_mascota/" + $localStorage.id_usuario;
                 $http.get(url)
                         .then(
-                                function (data) {
+                                function (response) {
+                                    data = response.data;
                                     console.log("Consulte y el Actual EULA es: " + data.eula);
-                                    if (data.eula != "1") {
-                                        $location.url('/app/eula');
-                                    } else {
-                                        $location.url('/app/mascotas');
-                                    }
+                                    if (data.eula)
+                                        if (data.eula != "1") {
+                                            $location.url('/app/eula');
+                                        } else {
+                                            $location.url('/app/mascotas');
+                                        }
+                                    else
+                                        $location.url('/login');
                                 },
-                                function (data) {
+                                function (response) {
                                     console.log("Ocurrio un error al leer datos del dueño de la mascota");
-                                    console.log("El error creo que es: "+data.data+" - "+data.status);
+                                    console.log("El error creo que es: " + response.data + " - " + response.status);
 
                                 });
 //                console.log("Se encontraron datos, redireccionando a gps");

@@ -38,6 +38,7 @@ angular.module('starter.controllers', [])
                             $http.get(url).success(function (data) {
                                 url = config.apiurl + 'dueno_mascota/' +
                                         $localStorage.id_usuario;
+                                console.log("La fecha Actual es: "+data.fecha);
                                 $http.put
                                         (
                                                 url,
