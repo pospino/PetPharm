@@ -8,7 +8,7 @@ angular.module('starter.controllers', [])
             url = config.apiurl + "dueno_mascota/"+$localStorage.id_usuario
             $http.get(url).success(function(data){
                 console.log("Actual EULA: "+data.eula);
-                if(data.eula != 1){
+                if(data.eula != "1"){
                     $location.url('/eula');
                 }
             });
