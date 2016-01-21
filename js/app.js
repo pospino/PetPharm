@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 angular.module('starter', ['ionic', 'leaflet-directive', 'starter.controllers', 'ngCordova', 'igTruncate', 'ngStorage'])
 
-        .run(function ($ionicPlatform, $localStorage, $location, pushService,config) {
+        .run(function ($ionicPlatform, $localStorage, $location, pushService, $http, config) {
 
 
             $ionicPlatform.ready(function () {
@@ -32,17 +32,25 @@ angular.module('starter', ['ionic', 'leaflet-directive', 'starter.controllers', 
 
             }, false);
             if ($localStorage.id_usuario) {
+                console.log("Datos registrados en el sistema, voy a consultar EULA");
                 url = config.apiurl + "dueno_mascota/" + $localStorage.id_usuario;
-                $http.get(url).success(function (data) {
-                    console.log("Actual EULA: " + data.eula);
-                    if (data.eula != "1") {
-                        $location.url('/app/eula');
-                    }else{
-                        $location.url('/app/mascotas');
-                    }
-                });
+                $http.get(url)
+                        .then(
+                                function (data) {
+                                    console.log("Consulte y el Actual EULA es: " + data.eula);
+                                    if (data.eula != "1") {
+                                        $location.url('/app/eula');
+                                    } else {
+                                        $location.url('/app/mascotas');
+                                    }
+                                },
+                                function (data) {
+                                    console.log("Ocurrio un error al leer datos del dueño de la mascota");
+                                    console.log("El error creo que es: "+data.data+" - "+data.status);
+
+                                });
 //                console.log("Se encontraron datos, redireccionando a gps");
-                
+
             } else {
 //                console.log("No se encontraron datos, redireccionando a login");
                 $location.url('/login');
