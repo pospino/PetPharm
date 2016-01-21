@@ -1,18 +1,18 @@
 angular.module('starter.controllers', [])
-        .controller('AppCtrl', function ($scope, $localStorage, $location, $http,config) {
+        .controller('AppCtrl', function ($scope, $localStorage, $location, $http, config) {
 
             $scope.logOut = function () {
                 $localStorage.$reset();
                 $location.url('/login');
             };
-            url = config.apiurl + "dueno_mascota/"+$localStorage.id_usuario;
-            $http.get(url).success(function(data){
-                console.log("Actual EULA: "+data.eula);
-                if(data.eula != "1"){
+            url = config.apiurl + "dueno_mascota/" + $localStorage.id_usuario;
+            $http.get(url).success(function (data) {
+                console.log("Actual EULA: " + data.eula);
+                if (data.eula != "1") {
                     $location.url('/app/eula');
                 }
             });
-            
+
 
 
         })
@@ -38,18 +38,20 @@ angular.module('starter.controllers', [])
                             $http.get(url).success(function (data) {
                                 url = config.apiurl + 'eula/' +
                                         $localStorage.id_usuario;
-                                console.log("La fecha Actual es: "+data[0]["fecha"]);
+                                console.log("La fecha Actual es: " + data[0]["fecha"]);
                                 $http.put
                                         (
                                                 url,
                                                 {
                                                     eula: 1,
-                                                    eula_since: data.fecha
                                                 }
                                         )
                                         .success(function () {
                                             $ionicLoading.hide();
                                             $location.url('/app/mascotas');
+                                        })
+                                        .error(function (data, status, header, config) {
+                                            console.log("Ocurrio un error: " + data);
                                         });
                             });
                             $ionicLoading.hide();
