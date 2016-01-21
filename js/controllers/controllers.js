@@ -27,45 +27,35 @@ angular.module('starter.controllers', [])
                             maxWidth: 200,
                             showDelay: 0
                         });
-                        if (valor == 0)
-                        {
-                            $ionicLoading.hide();
-                            $localStorage.$reset();
-                            $location.url('/login');
-
-                        } else {
-                            url = config.apiurl + 'curdate/0/0';
-                            $http.get(url).then(
-                                    function (response) {
-                                        url = config.apiurl + 'dueno_mascota/' +
-                                                $localStorage.id_usuario;
-                                        console.log("La fecha Actual es: " + response.data[0]["fecha"]);
+                        url = config.apiurl + 'curdate/0/0';
+                        $http.get(url).then(
+                                function (response) {
+                                    url = config.apiurl + 'dueno_mascota/' +
+                                            $localStorage.id_usuario;
+                                    console.log("La fecha Actual es: " + response.data[0]["fecha"]);
 
 
-                                        $http.put(url,
-                                                {
-                                                    'eula': 1,
-                                                    'eula_since': response.data[0]["fecha"]
-                                                })
-                                                .success(function (result) {
-                                                    console.log(result);
-                                                    console.log("Entre al success del put");
-                                                    $ionicLoading.hide()
+                                    $http.put(url,
+                                            {
+                                                'eula': valor,
+                                                'eula_since': response.data[0]["fecha"]
+                                            })
+                                            .success(function (result) {
+                                                console.log(result);
+                                                console.log("Entre al success del put");
+                                                $ionicLoading.hide()
+                                                if (valor == 0)
+                                                    $state.go("login");
+                                                else
                                                     $state.go("app.mascotas");
-                                                })
-                                                .error(function () {
-                                                    console.log("error");
-                                                });
+                                            })
+                                            .error(function () {
+                                                console.log("error");
+                                            });
 
-
-
-                                    });
-                            $ionicLoading.hide();
-                        }
+                                });
+                        $ionicLoading.hide();
                     };
-
-
-
 
                 })
 
