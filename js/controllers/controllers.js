@@ -35,28 +35,28 @@ angular.module('starter.controllers', [])
 
                         } else {
                             url = config.apiurl + 'curdate/0/0';
-                            $http.get(url)
-                                    .success(
-                                            function (data) {
-                                                url = config.apiurl + 'eula/' +
-                                                        $localStorage.id_usuario;
-                                                console.log("La fecha Actual es: " + data[0]["fecha"]);
-                                                $http.put
-                                                        (
-                                                                url,
-                                                                {
-                                                                    "eula": "1",
-                                                                }
-                                                        )
-                                                        .success(function () {
-                                                            console.log("Entre al success del put");
-                                                            $ionicLoading.hide();
-                                                            $state.go("app.mascotas");
-                                                        })
-                                                        .error(function (data, status, header, config) {
-                                                            console.log("Ocurrio un error: " + data);
+                            $http.get(url).then(
+                                    function (data) {
+                                        url = config.apiurl + 'dueno_mascota/' +
+                                                $localStorage.id_usuario;
+
+                                        console.log("La fecha Actual es: " + data[0]["fecha"]);
+                                        console.log("Voy a visitar la URL: " + url);
+                                        var datos = $.param({
+                                            eula: 1,
+                                            eula_since: data[0]["fecha"]
+                                        });
+
+                                        $http(url + "?" + datos)
+                                                .then(function (response) {
+                                                    console.log("Entre al success del put");
+                                                    $ionicLoading.hide();
+                                                    $state.go("app.mascotas");
+                                                },
+                                                        function (response) {
+                                                            console.log("Ocurrio un error: " + response.data);
                                                         });
-                                            });
+                                    });
                             $ionicLoading.hide();
                         }
                     };
