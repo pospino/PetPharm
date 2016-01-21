@@ -1,5 +1,5 @@
 angular.module('starter.controllers', [])
-        .controller('AppCtrl', function ($scope, $localStorage, $location, $http, config) {
+        .controller('AppCtrl', function ($scope, $localStorage, $location,$state, $http, config) {
 
             $scope.logOut = function () {
                 $localStorage.$reset();
@@ -9,7 +9,7 @@ angular.module('starter.controllers', [])
             $http.get(url).success(function (data) {
                 console.log("Actual EULA: " + data.eula);
                 if (data.eula != "1") {
-                    $location.url('/app/eula');
+                    $state.go("login");
                 }
             });
 
@@ -18,7 +18,7 @@ angular.module('starter.controllers', [])
         })
 
         .controller('EULACtrl',
-                function ($scope, $http, $localStorage, config, $ionicLoading, $location) {
+                function ($scope, $http, $localStorage, config, $state, $ionicLoading, $location) {
                     $scope.doAccept = function (valor) {
                         $ionicLoading.show({
                             content: 'Loading',
@@ -48,7 +48,7 @@ angular.module('starter.controllers', [])
                                         )
                                         .success(function () {
                                             $ionicLoading.hide();
-                                            $location.url('/app/mascotas');
+                                            $state.go("app.mascotas");
                                         })
                                         .error(function (data, status, header, config) {
                                             console.log("Ocurrio un error: " + data);
