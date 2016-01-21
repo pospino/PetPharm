@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 angular.module('starter', ['ionic', 'leaflet-directive', 'starter.controllers', 'ngCordova', 'igTruncate', 'ngStorage'])
 
-        .run(function ($ionicPlatform, $localStorage, $location) {
+        .run(function ($ionicPlatform, $localStorage, $location, pushService, $http, config) {
 
 
             $ionicPlatform.ready(function () {
@@ -20,12 +20,43 @@ angular.module('starter', ['ionic', 'leaflet-directive', 'starter.controllers', 
                 }
 
             });
+            document.addEventListener("deviceready", function () {
+                //navigator.notification.alert('** cordova ready **');
 
+
+//                pushService.register().then(function (result) {
+//                    //navigator.notification.alert("Se leyo el # de serial" + result);
+//                }, function (err) {
+//                    navigator.notification.alert("No se recibiran notificaciones: " + err);
+//                });
+
+            }, false);
             if ($localStorage.id_usuario) {
-                console.log("Se encontraron datos, redireccionando a gps");
-                $location.url('/app/gps');
+                console.log("Datos registrados en el sistema, voy a consultar EULA");
+                url = config.apiurl + "dueno_mascota/" + $localStorage.id_usuario;
+                $http.get(url)
+                        .then(
+                                function (response) {
+                                    data = response.data;
+                                    console.log("Consulte y el Actual EULA es: " + data.eula);
+                                    if (data.eula)
+                                        if (data.eula != "1") {
+                                            $location.url('/app/eula');
+                                        } else {
+                                            $location.url('/app/mascotas');
+                                        }
+                                    else
+                                        $location.url('/login');
+                                },
+                                function (response) {
+                                    console.log("Ocurrio un error al leer datos del dueño de la mascota");
+                                    console.log("El error creo que es: " + response.data + " - " + response.status);
+
+                                });
+//                console.log("Se encontraron datos, redireccionando a gps");
+
             } else {
-                console.log("No se encontraron datos, redireccionando a login");
+//                console.log("No se encontraron datos, redireccionando a login");
                 $location.url('/login');
             }
 
@@ -38,7 +69,7 @@ angular.module('starter', ['ionic', 'leaflet-directive', 'starter.controllers', 
                     .state('login', {
                         url: "/login",
                         templateUrl: "templates/login.html",
-                        controller: 'LoginCtrl',
+                        controller: 'LoginCtrl'
                     })
 
                     .state('app', {
@@ -54,6 +85,15 @@ angular.module('starter', ['ionic', 'leaflet-directive', 'starter.controllers', 
                             'menuContent': {
                                 templateUrl: "templates/map.html",
                                 controller: "PuntosCtrl"
+                            }
+                        }
+                    })
+                    .state('app.eula', {
+                        url: "/eula",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "templates/eula.html",
+                                controller: "EULACtrl"
                             }
                         }
                     })
@@ -114,5 +154,5 @@ angular.module('starter', ['ionic', 'leaflet-directive', 'starter.controllers', 
                         }
                     })
 
-            $urlRouterProvider.otherwise('/app/gps');
+            $urlRouterProvider.otherwise('/app/mascotas');
         });

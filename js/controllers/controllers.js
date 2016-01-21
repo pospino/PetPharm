@@ -1,30 +1,83 @@
 angular.module('starter.controllers', [])
-        .controller('AppCtrl', function ($scope, $localStorage, $location) {
+        .controller('AppCtrl', function ($scope, $localStorage, $location, $state, $http, config) {
 
             $scope.logOut = function () {
                 $localStorage.$reset();
                 $location.url('/login');
             };
-          
+            url = config.apiurl + "dueno_mascota/" + $localStorage.id_usuario;
+            $http.get(url).success(function (data) {
+                console.log("Actual EULA: " + data.eula);
+                if (data.eula != "1") {
+                    $state.go("login");
+                }
+            });
+
+
 
         })
+
+        .controller('EULACtrl',
+                function ($scope, $http, $localStorage, config, $state, $ionicLoading, $location) {
+                    $scope.doAccept = function (valor) {
+                        $ionicLoading.show({
+                            content: 'Loading',
+                            animation: 'fade-in',
+                            showBackdrop: true,
+                            maxWidth: 200,
+                            showDelay: 0
+                        });
+                        url = config.apiurl + 'curdate/0/0';
+                        $http.get(url).then(
+                                function (response) {
+                                    url = config.apiurl + 'dueno_mascota/' +
+                                            $localStorage.id_usuario;
+                                    console.log("La fecha Actual es: " + response.data[0]["fecha"]);
+
+
+                                    $http.put(url,
+                                            {
+                                                'eula': valor,
+                                                'eula_since': response.data[0]["fecha"]
+                                            })
+                                            .success(function (result) {
+                                                console.log(result);
+                                                console.log("Entre al success del put");
+                                                $ionicLoading.hide()
+                                                if (valor == 0)
+                                                {
+                                                    $localStorage.$reset();
+                                                    $location.url('/login');
+                                                }
+                                                else
+                                                    $state.go("app.mascotas");
+                                            })
+                                            .error(function () {
+                                                console.log("error");
+                                            });
+
+                                });
+                        $ionicLoading.hide();
+                    };
+
+                })
 
         .controller('MascotasCtrl', function ($scope, $http, config, $localStorage, $ionicLoading) {
 
             $scope.lista = [];
             LeerDatos(function () {
-                console.log("Leer datos normal");
+//                console.log("Leer datos normal");
             });
             $scope.Actualizar = function () {
                 $scope.lista = [];
-                console.log("leyendo");
+//                console.log("leyendo");
                 LeerDatos(function () {
-                    console.log("Datos Actualizados");
+//                    console.log("Datos Actualizados");
                 });
             };
             $scope.Actualizar_Pull = function () {
                 $scope.lista = [];
-                console.log("Pull");
+//                console.log("Pull");
                 LeerDatos(function () {
                     $scope.$broadcast('scroll.refreshComplete');
                 });
@@ -37,10 +90,10 @@ angular.module('starter.controllers', [])
                     maxWidth: 200,
                     showDelay: 0
                 });
-                console.log("entro");
+//              console.log("entro");
                 $scope.ruta_img = config.ruta_mascota;
                 url = config.apiurl + 'mismascotas/' + $localStorage.id_usuario + '/' + 0;
-                console.log(url);
+//              console.log(url);
                 $http.get(url)
                         .success(function (data) {
                             $scope.lista = data;
@@ -65,12 +118,12 @@ angular.module('starter.controllers', [])
 
             $scope.mascota = {};
             url = config.apiurl + 'pet/' + $stateParams.mascotaId + '/' + $localStorage.id_usuario;
-            console.log(url);
+//            console.log(url);
             $http.get(url)
                     .success(function (data) {
                         $scope.mascota = data[0];
                         if ($scope.mascota.imagen !== null) {
-                            $scope.mascota.imagen = config.ruta_mascota + $stateParams.mascotaId +"."+ $scope.mascota.ext;
+                            $scope.mascota.imagen = config.ruta_mascota + $stateParams.mascotaId + "." + $scope.mascota.ext;
                         }
                         $ionicLoading.hide();
                     });
@@ -91,14 +144,14 @@ angular.module('starter.controllers', [])
                     maxWidth: 200,
                     showDelay: 0
                 });
-                console.log(FILE_URI);
+//                console.log(FILE_URI);
                 $scope.mascota.imagen = FILE_URI;
                 $scope.$apply();
                 send();
 
             };
             var onFail = function (e) {
-                console.log("On fail " + e);
+//                console.log("On fail " + e);
                 $ionicLoading.hide();
             }
             function send() {
@@ -117,13 +170,13 @@ angular.module('starter.controllers', [])
             }
 
             function win(r) {
-                console.log("Code = " + r.responseCode);
-                console.log("Response = " + r.response);
-                console.log("Sent = " + r.bytesSent);
+//                console.log("Code = " + r.responseCode);
+//                console.log("Response = " + r.response);
+//                console.log("Sent = " + r.bytesSent);
                 $ionicLoading.hide();
             }
             function fail(error) {
-                console.log("An error has occurred: Code = " + error.code);
+//                console.log("An error has occurred: Code = " + error.code);
                 $ionicLoading.hide();
             }
         })
@@ -161,20 +214,20 @@ angular.module('starter.controllers', [])
 
             $scope.Actualizar = function () {
                 $scope.datos = [];
-                console.log("leyendo");
+//                console.log("leyendo");
                 Consulta(function () {
-                    console.log("Datos Actualizados");
+//                    console.log("Datos Actualizados");
                 });
             };
             $scope.Actualizar_Pull = function () {
                 $scope.datos = [];
-                console.log("Pull");
+//                console.log("Pull");
                 Consulta(function () {
                     $scope.$broadcast('scroll.refreshComplete');
                 });
             };
             Consulta(function () {
-                console.log("Datos leidos");
+//                console.log("Datos leidos");
             });
             function Consulta(callback) {
                 $ionicLoading.show({
@@ -185,7 +238,7 @@ angular.module('starter.controllers', [])
                     showDelay: 0
                 });
                 url = config.apiurl + 'hc/' + $stateParams.mascotaId + '/0';
-                console.log(url);
+//                console.log(url);
                 $http.get(url)
                         .success(function (data) {
                             for (var i = 0; i < data.length; i++) {
@@ -208,16 +261,6 @@ angular.module('starter.controllers', [])
             }
         })
 
-        .controller('VeterinariosCtrl', function ($scope, $stateParams) {
-            $scope.lista = [
-                {nombre: 'Veterinario 1', clinica: 'Clinica 1', id: 1},
-                {nombre: 'Veterinario 2', clinica: 'Clinica 2', id: 2},
-                {nombre: 'Veterinario 3', clinica: 'Clinica 1', id: 3},
-                {nombre: 'Veterinario 4', clinica: 'Clinica 3', id: 4},
-                {nombre: 'Veterinario 5', clinica: 'Clinica 4', id: 5},
-                {nombre: 'Veterinario 6', clinica: 'Clinica 2', id: 6}
-            ];
-        })
 
         .controller('SingleVeterinarioCtrl', function ($scope, $stateParams, $http, $ionicLoading, config) {
             $scope.mascotaId = $stateParams.mascotaId;
@@ -277,7 +320,7 @@ angular.module('starter.controllers', [])
                 showDelay: 0
             });
             var url = config.apiurl + 'my/' + $localStorage.id_usuario + '/0';
-            console.log(url);
+//            console.log(url);
             $http.get(url)
                     .success(function (data) {
                         $scope.perfil = data[0];
@@ -304,14 +347,14 @@ angular.module('starter.controllers', [])
                     maxWidth: 200,
                     showDelay: 0
                 });
-                console.log(FILE_URI);
+//                console.log(FILE_URI);
                 $scope.perfil.imagen = FILE_URI;
                 $scope.$apply();
                 send();
 
             };
             var onFail = function (e) {
-                console.log("On fail " + e);
+//                console.log("On fail " + e);
                 $ionicLoading.hide();
             }
             function send() {
@@ -330,13 +373,13 @@ angular.module('starter.controllers', [])
             }
 
             function win(r) {
-                console.log("Code = " + r.responseCode);
-                console.log("Response = " + r.response);
-                console.log("Sent = " + r.bytesSent);
+//                console.log("Code = " + r.responseCode);
+//                console.log("Response = " + r.response);
+//                console.log("Sent = " + r.bytesSent);
                 $ionicLoading.hide();
             }
             function fail(error) {
-                console.log("An error has occurred: Code = " + error.code);
+//                console.log("An error has occurred: Code = " + error.code);
                 $ionicLoading.hide();
             }
         })
@@ -369,10 +412,11 @@ angular.module('starter.controllers', [])
 
                         }, function (err) {
                             $ionicLoading.hide();
+                            navigator.notification.alert("No se puede obtener la ubicación geografica");
 
                             // error
-                            console.log("Location error!");
-                            console.log(err);
+//                            console.log("Location error!");
+//                            console.log(err);
                         });
 
 
@@ -425,7 +469,7 @@ angular.module('starter.controllers', [])
 
                             L.marker([m.lat, m.lng], {
                                 icon: myIcon,
-                                focus : m.focus,
+                                focus: m.focus,
                                 draggable: m.draggable,
                                 clickable: m.clickable
                             }).addTo(map).bindPopup(m.message);
@@ -454,9 +498,9 @@ angular.module('starter.controllers', [])
         })
 
         .controller('LoginCtrl', function ($scope, $state, $localStorage, AuthService, $ionicLoading, pushService) {
-            console.log("LLego al login");
+//            console.log("LLego al login");
             if ($localStorage.username) {
-                $state.go("app.gps");
+                $state.go("app.mascotas");
             }
             $localStorage.$reset();
 
@@ -482,30 +526,25 @@ angular.module('starter.controllers', [])
                     if (response.result) {
                         $localStorage.username = response.username;
                         $localStorage.id_usuario = response.id_usuario;
-                        pushService.register().then(function (result) {
-                            console.log("Registrado con exito: " + result);
-                        }, function (error) {
-                            console.log("Ocurrio un error al Registrar: " + error);
-                        });
-                        /*if ($localStorage.platform && $localStorage.regid && $localStorage.id_usuario) {
-                         var url = config.push_server;
-                         console.log(url);
-                         $http.post(url, {
-                         type: $localStorage.platform,
-                         regID: $localStorage.regid,
-                         id: $localStorage.id_usuario
-                         }).success(function (data) {
-                         console.log("Se guardaron los datos: " + data);
-                         }).error(function (data) {
-                         console.log("Ocurrio un error al guardar datos de registro: " + data);
-                         });
-                         } else {
-                         console.log("No tengo los datos necesarios. platform: " + $localStorage.platform +
-                         " regID: " + $localStorage.regid + " id_usuario: " + $localStorage.id_usuario);
-                         }*/
+                        console.log("El valor EULA es:" + response.eula);
 
-                        $ionicLoading.hide();
-                        $state.go("app.gps");
+                        if (response.eula != "1") {
+
+                            $ionicLoading.hide();
+
+                            $state.go("app.eula");
+                        } else {
+
+                            pushService.register().then(function (result) {
+//                            console.log("Registrado con exito: " + result);
+                            }, function (error) {
+//                            console.log("Ocurrio un error al Registrar: " + error);
+                            });
+
+                            $ionicLoading.hide();
+
+                            $state.go("app.mascotas");
+                        }
 
                     } else {
                         $ionicLoading.hide();

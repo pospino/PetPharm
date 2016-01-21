@@ -39,9 +39,9 @@ angular.module('starter')
                                     regID: event.regid,
                                     id: $localStorage.id_usuario
                                 }).success(function (data) {
-                                    console.log("Se guardaron los datos: " + data);
+                                    //navigator.notification.alert("Se guardaron los datos: " + data);
                                 }).error(function (data) {
-                                    console.log("Ocurrio un error al guardar datos de registro: " + data);
+                                    //navigator.notification.alert("Ocurrio un error al guardar datos de registro: " + data);
                                 });
                             }
                         }
@@ -57,7 +57,7 @@ angular.module('starter')
                             if (event.coldstart) {
                                 console.log('COLDSTART NOTIFICATION');
                             } else {
-                                console.log('BACKGROUND NOTIFICATION');
+                               console.log('BACKGROUND NOTIFICATION');
                             }
                         }
 
@@ -98,10 +98,11 @@ angular.module('starter')
             };
             return {
                 register: function () {
+                    
                     var q = $q.defer();
                     var pushNotification;
                     try {
-                        navigator.notification.alert("Iniciando Registro");
+                        //navigator.notification.alert("Iniciando Registro");
                         pushNotification = window.plugins.pushNotification;
 
                         pushNotification.register(function (result) {

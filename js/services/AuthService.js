@@ -2,7 +2,7 @@ angular.module('starter')
         .factory('AuthService', ['$http', 'config', '$state', function ($http, config, $state, $localStorage) {
                 var Auth = {};
                 Auth.Login = function (username, password, callback) {
-                    console.log("LLamando api");
+//                    console.log("LLamando api");
                     url = config.apiurl + 'login/' + username + '/' + password;
                     //console.log(url);
                     $http.get(url)
@@ -11,8 +11,11 @@ angular.module('starter')
                                     if (!data.success) {
 
                                         if (!data.error) {
-                                            
-                                            callback({result: true, username: username, id_usuario: data[0]["id"]});
+                                            callback({result: true, 
+                                                username: username, 
+                                                id_usuario: data[0]["id"],
+                                                eula: data[0]["eula"]
+                                            });
                                         } else {
                                             callback({result: false, data: "Ocurrio un error: " + data.error.status});
                                         }
@@ -24,7 +27,7 @@ angular.module('starter')
                                 }
                             })
                             .error(function (data, status, headers, config) {
-                                console.log("Ocurrio un error");
+//                                console.log("Ocurrio un error");
                             });
                     //return (username === 'pospino@procaps.com.co' && password === 'Calle20');
 
