@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 angular.module('starter', ['ionic', 'leaflet-directive', 'starter.controllers', 'ngCordova', 'igTruncate', 'ngStorage'])
 
-        .run(function ($ionicPlatform, $localStorage, $location, pushService) {
+        .run(function ($ionicPlatform, $localStorage, $location, pushService,config) {
 
 
             $ionicPlatform.ready(function () {
@@ -22,19 +22,27 @@ angular.module('starter', ['ionic', 'leaflet-directive', 'starter.controllers', 
             });
             document.addEventListener("deviceready", function () {
                 //navigator.notification.alert('** cordova ready **');
-                
-                    
-                    pushService.register().then(function (result) {
-                        //navigator.notification.alert("Se leyo el # de serial" + result);
-                    }, function (err) {
-                        navigator.notification.alert("No se recibiran notificaciones: " + err);
-                    });
-                
+
+
+                pushService.register().then(function (result) {
+                    //navigator.notification.alert("Se leyo el # de serial" + result);
+                }, function (err) {
+                    navigator.notification.alert("No se recibiran notificaciones: " + err);
+                });
+
             }, false);
             if ($localStorage.id_usuario) {
-
+                url = config.apiurl + "dueno_mascota/" + $localStorage.id_usuario;
+                $http.get(url).success(function (data) {
+                    console.log("Actual EULA: " + data.eula);
+                    if (data.eula != "1") {
+                        $location.url('/eula');
+                    }else{
+                        $location.url('/app/mascotas');
+                    }
+                });
 //                console.log("Se encontraron datos, redireccionando a gps");
-                $location.url('/app/mascotas');
+                
             } else {
 //                console.log("No se encontraron datos, redireccionando a login");
                 $location.url('/login');

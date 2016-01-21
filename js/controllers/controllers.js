@@ -5,7 +5,7 @@ angular.module('starter.controllers', [])
                 $localStorage.$reset();
                 $location.url('/login');
             };
-            url = config.apiurl + "dueno_mascota/"+$localStorage.id_usuario
+            url = config.apiurl + "dueno_mascota/"+$localStorage.id_usuario;
             $http.get(url).success(function(data){
                 console.log("Actual EULA: "+data.eula);
                 if(data.eula != "1"){
