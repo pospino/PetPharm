@@ -36,10 +36,10 @@ angular.module('starter.controllers', [])
                         } else {
                             url = config.apiurl + 'curdate/0/0';
                             $http.get(url).then(
-                                    function (data) {
+                                    function (response) {
                                         url = config.apiurl + 'eula/' +
                                                 $localStorage.id_usuario;
-                                        console.log("La fecha Actual es: " + data[0]["fecha"]);
+                                        console.log("La fecha Actual es: " + response.data[0]["fecha"]);
                                         
                                         $http.put
                                                 (
