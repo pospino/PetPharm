@@ -27,7 +27,7 @@ angular.module('starter.controllers', [])
                             maxWidth: 200,
                             showDelay: 0
                         });
-                        if (valor === 0)
+                        if (valor == "0")
                         {
                             $ionicLoading.hide();
                             $localStorage.$reset();
