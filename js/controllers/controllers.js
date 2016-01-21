@@ -1,45 +1,63 @@
 angular.module('starter.controllers', [])
-        .controller('AppCtrl', function ($scope, $localStorage, $location) {
+        .controller('AppCtrl', function ($scope, $localStorage, $location, $http,config) {
 
             $scope.logOut = function () {
                 $localStorage.$reset();
                 $location.url('/login');
             };
-
-
-        })
-
-        .controller('EULACtrl', function ($scope, $http, $localStorage, $location) {
-            $scope.doAccept = function (valor) {
-                if (valor == 0)
-                {
-                    $localStorage.$reset();
-                    $location.url('/login');
-
-                } else {
-                    url = config.apiurl + 'curdate/0/0';
-                    $http.get(url).success(function (data) {
-                        url = config.apiurl + 'dueno_mascota/' +
-                                $localStorage.id_usuario;
-                        $http.put
-                                (
-                                        url,
-                                        {
-                                            eula: 1,
-                                            eula_since: data.fecha
-                                        }
-                                )
-                                .success(function () {
-                                    $location.url('/mascotas');
-                                });
-                    });
+            url = config.apiurl + "dueno_mascota/"+$localStorage.id_usuario
+            $http.get(url).success(function(data){
+                if(data.eula !== 1){
+                    $location.url('/eula');
                 }
-            };
-
-
+            });
+            
 
 
         })
+
+        .controller('EULACtrl',
+                function ($scope, $http, $localStorage, config, $ionicLoading, $location) {
+                    $scope.doAccept = function (valor) {
+                        $ionicLoading.show({
+                            content: 'Loading',
+                            animation: 'fade-in',
+                            showBackdrop: true,
+                            maxWidth: 200,
+                            showDelay: 0
+                        });
+                        if (valor === 0)
+                        {
+                            $ionicLoading.hide();
+                            $localStorage.$reset();
+                            $location.url('/login');
+
+                        } else {
+                            url = config.apiurl + 'curdate/0/0';
+                            $http.get(url).success(function (data) {
+                                url = config.apiurl + 'dueno_mascota/' +
+                                        $localStorage.id_usuario;
+                                $http.put
+                                        (
+                                                url,
+                                                {
+                                                    eula: 1,
+                                                    eula_since: data.fecha
+                                                }
+                                        )
+                                        .success(function () {
+                                            $ionicLoading.hide();
+                                            $location.url('/mascotas');
+                                        });
+                            });
+                            $ionicLoading.hide();
+                        }
+                    };
+
+
+
+
+                })
 
         .controller('MascotasCtrl', function ($scope, $http, config, $localStorage, $ionicLoading) {
 
@@ -69,10 +87,10 @@ angular.module('starter.controllers', [])
                     maxWidth: 200,
                     showDelay: 0
                 });
-//                console.log("entro");
+//              console.log("entro");
                 $scope.ruta_img = config.ruta_mascota;
                 url = config.apiurl + 'mismascotas/' + $localStorage.id_usuario + '/' + 0;
-//                console.log(url);
+//              console.log(url);
                 $http.get(url)
                         .success(function (data) {
                             $scope.lista = data;
