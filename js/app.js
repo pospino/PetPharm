@@ -24,11 +24,11 @@ angular.module('starter', ['ionic', 'leaflet-directive', 'starter.controllers', 
                 //navigator.notification.alert('** cordova ready **');
 
 
-                pushService.register().then(function (result) {
-                    //navigator.notification.alert("Se leyo el # de serial" + result);
-                }, function (err) {
-                    navigator.notification.alert("No se recibiran notificaciones: " + err);
-                });
+//                pushService.register().then(function (result) {
+//                    //navigator.notification.alert("Se leyo el # de serial" + result);
+//                }, function (err) {
+//                    navigator.notification.alert("No se recibiran notificaciones: " + err);
+//                });
 
             }, false);
             if ($localStorage.id_usuario) {
