@@ -36,7 +36,7 @@ angular.module('starter', ['ionic', 'leaflet-directive', 'starter.controllers', 
                 $http.get(url).success(function (data) {
                     console.log("Actual EULA: " + data.eula);
                     if (data.eula != "1") {
-                        $location.url('/eula');
+                        $location.url('/app/eula');
                     }else{
                         $location.url('/app/mascotas');
                     }

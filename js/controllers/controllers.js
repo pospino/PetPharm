@@ -9,7 +9,7 @@ angular.module('starter.controllers', [])
             $http.get(url).success(function(data){
                 console.log("Actual EULA: "+data.eula);
                 if(data.eula != "1"){
-                    $location.url('/eula');
+                    $location.url('/app/eula');
                 }
             });
             
@@ -27,7 +27,7 @@ angular.module('starter.controllers', [])
                             maxWidth: 200,
                             showDelay: 0
                         });
-                        if (valor == "0")
+                        if (valor == 0)
                         {
                             $ionicLoading.hide();
                             $localStorage.$reset();
@@ -48,7 +48,7 @@ angular.module('starter.controllers', [])
                                         )
                                         .success(function () {
                                             $ionicLoading.hide();
-                                            $location.url('/mascotas');
+                                            $location.url('/app/mascotas');
                                         });
                             });
                             $ionicLoading.hide();
