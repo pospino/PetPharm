@@ -1,5 +1,5 @@
 angular.module('starter.controllers', [])
-        .controller('AppCtrl', function ($scope, $localStorage, $location,$state, $http, config) {
+        .controller('AppCtrl', function ($scope, $localStorage, $location, $state, $http, config) {
 
             $scope.logOut = function () {
                 $localStorage.$reset();
@@ -35,25 +35,28 @@ angular.module('starter.controllers', [])
 
                         } else {
                             url = config.apiurl + 'curdate/0/0';
-                            $http.get(url).success(function (data) {
-                                url = config.apiurl + 'eula/' +
-                                        $localStorage.id_usuario;
-                                console.log("La fecha Actual es: " + data[0]["fecha"]);
-                                $http.put
-                                        (
-                                                url,
-                                                {
-                                                    "eula": "1",
-                                                }
-                                        )
-                                        .success(function () {
-                                            $ionicLoading.hide();
-                                            $state.go("app.mascotas");
-                                        })
-                                        .error(function (data, status, header, config) {
-                                            console.log("Ocurrio un error: " + data);
-                                        });
-                            });
+                            $http.get(url)
+                                    .success(
+                                            function (data) {
+                                                url = config.apiurl + 'eula/' +
+                                                        $localStorage.id_usuario;
+                                                console.log("La fecha Actual es: " + data[0]["fecha"]);
+                                                $http.put
+                                                        (
+                                                                url,
+                                                                {
+                                                                    "eula": "1",
+                                                                }
+                                                        )
+                                                        .success(function () {
+                                                            console.log("Entre al success del put");
+                                                            $ionicLoading.hide();
+                                                            $state.go("app.mascotas");
+                                                        })
+                                                        .error(function (data, status, header, config) {
+                                                            console.log("Ocurrio un error: " + data);
+                                                        });
+                                            });
                             $ionicLoading.hide();
                         }
                     };
