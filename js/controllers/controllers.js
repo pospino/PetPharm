@@ -37,25 +37,28 @@ angular.module('starter.controllers', [])
                             url = config.apiurl + 'curdate/0/0';
                             $http.get(url).then(
                                     function (response) {
-                                        url = config.apiurl + 'eula/' +
+                                        url = config.apiurl + 'dueno_mascota/' +
                                                 $localStorage.id_usuario;
                                         console.log("La fecha Actual es: " + response.data[0]["fecha"]);
-                                        
-                                        $http.put
-                                                (
-                                                        url,
-                                                        {
-                                                            "eula": "1",
-                                                        }
-                                                )
-                                                .then(function () {
+
+
+                                        $http.put(url,
+                                                {
+                                                    'eula': 1,
+                                                    'eula_since': response.data[0]["fecha"]
+                                                })
+                                                .success(function (result) {
+                                                    console.log(result);
                                                     console.log("Entre al success del put");
-                                                    $ionicLoading.hide();
+                                                    $ionicLoading.hide()
                                                     $state.go("app.mascotas");
-                                                },
-                                                function (data) {
-                                                    console.log("Ocurrio un error: " + data);
+                                                })
+                                                .error(function () {
+                                                    console.log("error");
                                                 });
+
+
+
                                     });
                             $ionicLoading.hide();
                         }
