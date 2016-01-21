@@ -45,7 +45,10 @@ angular.module('starter.controllers', [])
                                                 console.log("Entre al success del put");
                                                 $ionicLoading.hide()
                                                 if (valor == 0)
-                                                    $state.go("login");
+                                                {
+                                                    $localStorage.$reset();
+                                                    $location.url('/login');
+                                                }
                                                 else
                                                     $state.go("app.mascotas");
                                             })
