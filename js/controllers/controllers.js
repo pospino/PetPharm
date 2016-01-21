@@ -36,7 +36,7 @@ angular.module('starter.controllers', [])
                         } else {
                             url = config.apiurl + 'curdate/0/0';
                             $http.get(url).success(function (data) {
-                                url = config.apiurl + 'dueno_mascota/' +
+                                url = config.apiurl + 'eula/' +
                                         $localStorage.id_usuario;
                                 console.log("La fecha Actual es: "+data.fecha);
                                 $http.put
