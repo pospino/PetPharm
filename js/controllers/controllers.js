@@ -38,7 +38,7 @@ angular.module('starter.controllers', [])
                             $http.get(url).success(function (data) {
                                 url = config.apiurl + 'eula/' +
                                         $localStorage.id_usuario;
-                                console.log("La fecha Actual es: "+data.fecha);
+                                console.log("La fecha Actual es: "+data[0]["fecha"]);
                                 $http.put
                                         (
                                                 url,
