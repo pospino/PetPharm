@@ -37,25 +37,25 @@ angular.module('starter.controllers', [])
                             url = config.apiurl + 'curdate/0/0';
                             $http.get(url).then(
                                     function (data) {
-                                        url = config.apiurl + 'dueno_mascota/' +
+                                        url = config.apiurl + 'eula/' +
                                                 $localStorage.id_usuario;
-
                                         console.log("La fecha Actual es: " + data[0]["fecha"]);
-                                        console.log("Voy a visitar la URL: " + url);
-                                        var datos = $.param({
-                                            eula: 1,
-                                            eula_since: data[0]["fecha"]
-                                        });
-
-                                        $http(url + "?" + datos)
-                                                .then(function (response) {
+                                        
+                                        $http.put
+                                                (
+                                                        url,
+                                                        {
+                                                            "eula": "1",
+                                                        }
+                                                )
+                                                .then(function () {
                                                     console.log("Entre al success del put");
                                                     $ionicLoading.hide();
                                                     $state.go("app.mascotas");
                                                 },
-                                                        function (response) {
-                                                            console.log("Ocurrio un error: " + response.data);
-                                                        });
+                                                function (data) {
+                                                    console.log("Ocurrio un error: " + data);
+                                                });
                                     });
                             $ionicLoading.hide();
                         }
