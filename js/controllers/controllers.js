@@ -43,7 +43,7 @@ angular.module('starter.controllers', [])
                                         (
                                                 url,
                                                 {
-                                                    eula: 1,
+                                                    "eula": "1",
                                                 }
                                         )
                                         .success(function () {
