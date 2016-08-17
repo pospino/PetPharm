@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 angular.module('starter', ['ionic', 'leaflet-directive', 'starter.controllers', 'ngCordova', 'igTruncate', 'ngStorage'])
 
-        .run(function ($ionicPlatform, $localStorage, $location, /*pushService,*/ $http, config) {
+        .run(function ($ionicPlatform, $localStorage, $location, pushService, $http, config) {
 
 
             $ionicPlatform.ready(function () {
@@ -20,8 +20,8 @@ angular.module('starter', ['ionic', 'leaflet-directive', 'starter.controllers', 
                 }
 
             });
-            /*quitar al subir*/
-           /* document.addEventListener("deviceready", function () {
+            
+            document.addEventListener("deviceready", function () {
                 //navigator.notification.alert('** cordova ready **');
 
 
@@ -31,7 +31,7 @@ angular.module('starter', ['ionic', 'leaflet-directive', 'starter.controllers', 
 //                    navigator.notification.alert("No se recibiran notificaciones: " + err);
 //                });
 
-            }, false);*/
+            }, false);
             if ($localStorage.id_usuario) {
                 console.log("Datos registrados en el sistema, voy a consultar EULA");
                 url = config.apiurl + "dueno_mascota/" + $localStorage.id_usuario;
