@@ -16,12 +16,12 @@
     
 
     <content src="index.html" />
-    <plugin name="cordova-plugin-whitelist" version="1" />
+   <gap:plugin name="cordova-plugin-whitelist" source="npm" />
     <access origin="*" />
     
     
 	
-	<gap:plugin name="com.phonegap.plugins.pushplugin" source="pgb"  />
+<gap:plugin name="com.phonegap.plugins.pushplugin" source="pgb"  />
 <gap:plugin name="cordova-plugin-whitelist"  />
 <gap:plugin name="org.apache.cordova.camera" source="pgb"  />
 <gap:plugin name="org.apache.cordova.device" source="pgb"  />
