@@ -1,0 +1,25 @@
+<ion-view view-title="Mis Mascotas">
+    <ion-nav-buttons side="right">
+        <button ng-click="Actualizar()" class="button button-icon icon ion-refresh"></button>
+    </ion-nav-buttons>
+    <ion-content>
+        <ion-refresher
+            pulling-text="Actualizar..."
+            on-refresh="Actualizar_Pull()">
+        </ion-refresher>
+        <div class="list list-inset">
+            <label class="item item-input">
+                <i class="icon ion-search placeholder-icon"></i>
+                <input ng-model="stext" type="text" placeholder="Buscar">
+            </label>
+        </div>
+        <ion-list>
+            <a ng-repeat="mascota in lista| filter: stext" href="#/app/mascota/{{mascota.id}}" class="item item-thumbnail-left">
+
+                <img ng-src="{{mascota.imagen?ruta_img + mascota.imagen:'img/petpharm.png'}}" style="width:50%" />
+                <h2>{{mascota.nombre}}</h2>
+                <h4>{{mascota.raza}}</h4>
+            </a>
+        </ion-list>
+    </ion-content>
+</ion-view>

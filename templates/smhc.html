@@ -1,0 +1,34 @@
+<ion-view  hide-back-button="true" view-title="Historia Clinica">
+
+    <div class="tabs tabs-assertive tabs-icon-top">
+        <a class="tab-item tabs-positive" href="#/app/mascota/{{mascotaId}}">
+            <i class="icon ion-ios-paw-outline"></i>
+            Datos
+        </a>
+        <a class="tab-item" href="#/app/mascotahc/{{mascotaId}}">
+            <i class="icon ion-ios-list"></i>H.C.
+        </a>
+        <a class="tab-item" href="#/app/veterinario/{{mascotaId}}/{{mascotaId}}">
+            <i class="icon ion-ios-medkit-outline"></i>Veterinarios
+        </a>
+    </div>
+    <ion-content class="has-tabs">
+         <ion-refresher
+            pulling-text="Actualizar..."
+            on-refresh="Actualizar_Pull()">
+        </ion-refresher>
+        <div ng-repeat="dato in datos" class="list">
+            
+            <div class="item item-divider" ng-click="open2(dato.detalles,'{{dato.fecha}}')">
+                {{dato.fecha}}
+            </div>
+            <a ng-repeat="det in dato.detalles" class="item item-icon-left" ng-click="open('{{det.desc}}','{{det.tipo == 'a' ? 'Motivo':'Diagnostico'}}')">
+                <i class="icon {{det.tipo == 'd' ? 'ion-thermometer' : 'ion-medkit'}}"></i>
+                {{det.desc}} 
+                <span class="item-note">
+                   {{det.tipo == 'a' ? 'Motivo':'Diagnostico'}}
+                </span>
+            </a>
+        </div>
+    </ion-content>
+</ion-view>
